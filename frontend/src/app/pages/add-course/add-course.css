@@ -1,0 +1,16 @@
+.form-container {
+    width: 500px;
+    margin: 40px auto;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}

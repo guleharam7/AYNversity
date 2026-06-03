@@ -13,3 +13,4 @@ Release/
 
 # Node modules (later frontend)
 node_modules/
+dist/
