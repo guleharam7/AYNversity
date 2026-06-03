@@ -1,72 +1,68 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-body {
-    min-height: 100vh;
-    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.auth-card {
+  background: white;
+  padding: 40px;
+  width: 350px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: fadeIn 0.5s ease;
 }
 
-.container {
-    width: 850px;
-    height: 550px;
-    background: #fff;
-    border-radius: 30px;
-    box-shadow: 0 0 30px rgba(0,0,0,0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.auth-card h1 {
+  margin-bottom: 10px;
+  color: #333;
 }
 
-form {
-    width: 100%;
-    padding: 40px;
+.auth-card p {
+  color: gray;
+  margin-bottom: 20px;
 }
 
-h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
 }
 
-.input-box {
-    position: relative;
-    margin: 20px 0;
+.auth-card input:focus {
+  border-color: #667eea;
 }
 
-.input-box input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    outline: none;
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.input-box i {
-    position: absolute;
-    right: 10px;
-    top: 12px;
-    color: gray;
+.auth-card button:hover {
+  background: #5a67d8;
 }
 
-.btn {
-    width: 100%;
-    padding: 12px;
-    background: #4a6cf7;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+.switch {
+  margin-top: 15px;
+  font-size: 14px;
 }
 
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 15px;
+.switch a {
+  color: #667eea;
+  text-decoration: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }

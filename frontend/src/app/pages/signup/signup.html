@@ -1,22 +1,30 @@
-<div class="container">
+<div class="auth-container">
+  <div class="auth-card">
 
-  <form (ngSubmit)="onSignup()" [formGroup]="signupForm">
+    <h1>Create Account</h1>
+    <p>Join AYNversity</p>
 
-    <h1>Sign Up</h1>
+    <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
 
-    <input type="text" placeholder="Name" formControlName="name">
+      <input type="text" placeholder="Full Name" formControlName="name" />
 
-    <input type="email" placeholder="Email" formControlName="email">
+      <input type="email" placeholder="Email" formControlName="email" />
 
-    <input type="password" placeholder="Password" formControlName="password">
+      <input type="password" placeholder="Password" formControlName="password" />
 
-    <select formControlName="role">
-      <option value="Student">Student</option>
-      <option value="Admin">Admin</option>
-    </select>
+      <select formControlName="role">
+        <option value="Student">Student</option>
+        <option value="Admin">Admin</option>
+      </select>
 
-    <button type="submit">Register</button>
+      <button type="submit">Register</button>
 
-  </form>
+    </form>
 
+    <p class="switch">
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+
+  </div>
 </div>
