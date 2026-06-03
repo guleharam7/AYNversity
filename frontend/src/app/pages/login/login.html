@@ -1,8 +1,16 @@
 <div class="auth-container">
+
+  <div class="bg-watermark">
+      <h1>ALL YOU NEED</h1>
+      <p>Learn. Build. Grow. Repeat.</p>
+    </div>
+
   <div class="auth-card">
 
-    <h1>Welcome Back</h1>
-    <p>Login to AYNversity</p>
+    <div class="logo-box">AYN</div>
+
+    <h2>AYNversity</h2>
+    <p>Sign in to continue</p>
 
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
@@ -10,14 +18,17 @@
 
       <input type="password" placeholder="Password" formControlName="password" />
 
-      <button type="submit">Login</button>
+      <button type="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
 
     </form>
 
     <p class="switch">
-      Don’t have an account?
-      <a routerLink="/signup">Sign Up</a>
+      Don't have an account?
+      <a routerLink="/signup">Sign up</a>
     </p>
 
   </div>
+
 </div>

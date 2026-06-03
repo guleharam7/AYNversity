@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -10,9 +10,10 @@ import { Router } from '@angular/router';
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
+  loading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -20,27 +21,36 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  onLogin() {
-    if (this.loginForm.invalid) return;
+  onLogin(): void {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
 
-    this.auth.login({
-      email: this.loginForm.value.email!,
-      password: this.loginForm.value.password!
-    }).subscribe({
+    this.loading = true;
+
+    this.auth.login(this.loginForm.value).subscribe({
       next: (res: any) => {
+
         localStorage.setItem('token', res.token);
-        localStorage.setItem('email', this.loginForm.value.email!);
+        localStorage.setItem('email', this.loginForm.value.email);
+
+        this.loading = false;
+
         this.router.navigate(['/dashboard']);
       },
-      error: () => {
-        alert('Invalid login');
+
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+        alert('Invalid email or password');
       }
     });
   }
