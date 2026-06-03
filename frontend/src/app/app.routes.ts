@@ -6,14 +6,15 @@ import { AdminComponent } from './pages/admin/admin';
 import { CoursesComponent } from './pages/courses/courses';
 import { AddCourseComponent } from './pages/add-course/add-course';
 import { EditCourseComponent } from './pages/edit-course/edit-course';
+import { AuthGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminComponent},
-  { path: 'courses', component: CoursesComponent },
-  { path: 'add-course', component: AddCourseComponent },
+  { path: 'courses', component: CoursesComponent, canActivate: [AuthGuard] },
+  { path: 'add-course', component: AddCourseComponent, canActivate: [AuthGuard] },
   { path: 'edit-course/:id', component: EditCourseComponent }
 ];
