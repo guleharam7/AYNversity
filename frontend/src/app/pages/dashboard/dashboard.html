@@ -8,8 +8,8 @@
     </div>
 
     <div class="userbox">
-      <span>{{ userEmail }}       </span>
-      <button (click)="logout()">Logout</button>
+      <span>{{ userEmail }} ({{role}})        </span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
     </div>
   </div>
 
@@ -19,10 +19,10 @@
       <h2>{{ courses.length }}</h2>
       <p>Total Courses</p>
     </div>
-  </div>
+  </div> 
 
-  <!-- INLINE ADD COURSE -->
-  <div class="add-card">
+  <!-- ================= Teacher ONLY ================= -->
+  <div class="add-card" *ngIf="isTeacher()">
 
     <h3>Add New Course</h3>
 
@@ -30,6 +30,9 @@
       <input placeholder="Title" [(ngModel)]="newCourse.title" />
       <input placeholder="Description" [(ngModel)]="newCourse.description" />
       <input placeholder="Category" [(ngModel)]="newCourse.category" />
+
+      <input placeholder="Instructor" [(ngModel)]="newCourse.instructor" />
+      <input placeholder="Teacher Email" [(ngModel)]="newCourse.userEmail" />
     </div>
 
     <button (click)="addCourse()">Add Course</button>
@@ -46,7 +49,19 @@
 
       <span class="tag">{{ c.category }}</span>
 
-      <button class="delete" (click)="deleteCourse(c.id)">
+      <!-- ================= STUDENT ONLY ================= -->
+      <button 
+        class="apply" 
+        *ngIf="isStudent()" 
+        (click)="applyCourse(c.id)">
+        Apply Course
+      </button>
+
+      <!-- ================= Teacher ONLY ================= -->
+      <button 
+        class="delete" 
+        *ngIf="isTeacher()" 
+        (click)="deleteCourse(c.id)">
         Delete
       </button>
 

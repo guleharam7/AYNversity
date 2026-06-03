@@ -32,39 +32,46 @@ export class LoginComponent implements OnInit {
 
   onLogin(): void {
 
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    this.loading = true;
-
-    const email = this.loginForm.value.email;
-    const password = this.loginForm.value.password;
-
-    this.auth.login({ email, password }).subscribe({
-      next: (res: any) => {
-
-        const token = res?.token;
-
-        if (!token) {
-          throw new Error('Token missing from backend response');
-        }
-
-        localStorage.setItem('token', token);
-        localStorage.setItem('email', email ?? '');
-
-        this.router.navigate(['/dashboard']);
-      },
-
-      error: (err) => {
-        console.error(err);
-        alert('Invalid email or password');
-      },
-
-      complete: () => {
-        this.loading = false;
-      }
-    });
+  if (this.loginForm.invalid) {
+    this.loginForm.markAllAsTouched();
+    return;
   }
+
+  this.loading = true; 
+
+  const { email, password } = this.loginForm.value;
+
+  this.auth.login({ email, password }).subscribe({
+    next: (res: any) => {
+
+      console.log("LOGIN RESPONSE:", res);
+
+      const token = res?.token;
+      const user = res?.user;
+
+      if (!token) {
+        this.loading = false;
+        throw new Error('Token missing from backend response');
+      }
+
+      // ================= STORE AUTH DATA =================
+      localStorage.setItem('token', token);
+      localStorage.setItem('email', user?.email ?? email);
+      localStorage.setItem('role', user?.role ?? 'Student');
+
+      this.loading = false; 
+
+      this.router.navigate(['/dashboard']);
+    },
+
+    error: (err) => {
+
+      this.loading = false; 
+
+      console.error(err);
+      alert(err?.error?.message || 'Invalid email or password');
+    }
+  });
+} 
+
 }

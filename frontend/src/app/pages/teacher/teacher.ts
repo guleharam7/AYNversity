@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-teacher',
   standalone: true,
-  templateUrl: './admin.html',
-  styleUrls: ['./admin.css']
+  templateUrl: './teacher.html',
+  styleUrls: ['./teacher.css']
 })
-export class AdminComponent {
+export class TeacherComponent {
 
   users: any[] = [];
 

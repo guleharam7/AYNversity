@@ -134,3 +134,18 @@
   content: "⎋ ";
   font-weight: bold;
 }
+
+.apply {
+  background: #10b981;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.apply:hover {
+  background: #059669;
+}

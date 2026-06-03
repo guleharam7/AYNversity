@@ -31,8 +31,15 @@ export class CourseService {
 
   // ADD COURSE 
   addCourse(course: any) {
-    return this.http.post(this.apiUrl, course, this.getAuthHeaders());
-  }
+
+  const token = localStorage.getItem('token');
+
+  return this.http.post(this.apiUrl, course, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+}
 
   // UPDATE COURSE
   updateCourse(id: string, course: any) {
@@ -43,4 +50,12 @@ export class CourseService {
   deleteCourse(id: string) {
     return this.http.delete(`${this.apiUrl}/${id}`, this.getAuthHeaders());
   }
+
+  applyCourse(id: string) {
+  return this.http.post(
+    `${this.apiUrl}/${id}/apply`,
+    {},
+    this.getAuthHeaders()
+  );
+}
 }

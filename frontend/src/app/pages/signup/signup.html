@@ -51,6 +51,11 @@
         Must contain 1 uppercase letter and 1 number
       </div>
 
+      <select formControlName="role">
+        <option value="Student">Student</option>
+        <option value="Teacher">Teacher</option>
+      </select>
+
       <!-- BUTTON -->
       <button type="submit" [disabled]="signupForm.invalid || loading">
         {{ loading ? 'Creating Account...' : 'Sign Up' }}

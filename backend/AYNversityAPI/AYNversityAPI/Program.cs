@@ -2,8 +2,9 @@ using AYNversityAPI.Data;
 using AYNversityAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using MongoDB.Driver;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +52,9 @@ builder.Services.AddAuthentication(options =>
 
         ValidIssuer = jwtSettings.Issuer,
         ValidAudience = jwtSettings.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+        NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
     };
 });
 

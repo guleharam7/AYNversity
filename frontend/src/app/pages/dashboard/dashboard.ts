@@ -14,40 +14,135 @@ export class DashboardComponent {
 
   courses: any[] = [];
   userEmail: string | null = '';
+  role: string | null = '';
 
   newCourse = {
     title: '',
     description: '',
-    category: ''
+    category: '',
+    instructor: '',
+    userEmail: ''
   };
 
   constructor(private courseService: CourseService) {}
 
   ngOnInit() {
     this.userEmail = localStorage.getItem('email');
+    this.role = localStorage.getItem('role');
+
     this.loadCourses();
   }
 
+  // ================= ROLE HELPERS =================
+
+  isTeacher(): boolean {
+    return this.role === 'Teacher';
+  }
+
+  isStudent(): boolean {
+    return this.role === 'Student';
+  }
+
+  // ================= LOAD COURSES =================
+
   loadCourses() {
-    this.courseService.getCourses().subscribe((res: any) => {
-      this.courses = res;
+    this.courseService.getCourses().subscribe({
+      next: (res: any) => {
+        this.courses = res;
+      },
+      error: (err) => {
+        console.error('Load courses error:', err);
+      }
     });
   }
+
+  // ================= ADD COURSE =================
 
   addCourse() {
-    if (!this.newCourse.title || !this.newCourse.description) return;
 
-    this.courseService.addCourse(this.newCourse).subscribe(() => {
-      this.loadCourses();
-      this.newCourse = { title: '', description: '', category: '' };
+    const course = {
+      title: this.newCourse.title?.trim(),
+      description: this.newCourse.description?.trim(),
+      category: this.newCourse.category?.trim(),
+      instructor: this.newCourse.instructor?.trim(),
+      userEmail: this.newCourse.userEmail?.trim()
+    };
+
+    if (
+      !course.title ||
+      !course.description ||
+      !course.category ||
+      !course.instructor ||
+      !course.userEmail
+    ) {
+      alert('Please fill all course fields');
+      return;
+    }
+
+    this.courseService.addCourse(course).subscribe({
+      next: () => {
+
+        alert('Course added successfully');
+
+        this.loadCourses();
+
+        this.newCourse = {
+          title: '',
+          description: '',
+          category: '',
+          instructor: '',
+          userEmail: ''
+        };
+      },
+
+      error: (err) => {
+        console.log('FULL ERROR:', err);
+        console.log('ERROR BODY:', err.error);
+        console.log('VALIDATION ERRORS:', err.error?.errors);
+
+        alert('Failed to add course');
+      }
     });
   }
+
+  // ================= APPLY COURSE =================
+
+  applyCourse(id: string): void {
+
+    this.courseService.applyCourse(id).subscribe({
+      next: () => {
+        alert('Course applied successfully!');
+        this.loadCourses();
+      },
+
+      error: (err) => {
+        console.error(err);
+        alert('Failed to apply course');
+      }
+    });
+  }
+
+  // ================= DELETE COURSE =================
 
   deleteCourse(id: string) {
-    this.courseService.deleteCourse(id).subscribe(() => {
-      this.loadCourses();
+
+    if (!confirm('Delete this course?')) {
+      return;
+    }
+
+    this.courseService.deleteCourse(id).subscribe({
+      next: () => {
+        this.loadCourses();
+      },
+
+      error: (err) => {
+        console.error(err);
+        alert('Failed to delete course');
+      }
     });
   }
+
+  // ================= LOGOUT =================
 
   logout() {
     localStorage.clear();

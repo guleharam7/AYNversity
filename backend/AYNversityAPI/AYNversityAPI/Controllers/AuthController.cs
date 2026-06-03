@@ -62,34 +62,29 @@ namespace AYNversityAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            if (dto == null)
-                return BadRequest("Invalid request");
-
             var user = await _userService.GetByEmailAsync(dto.Email);
 
             if (user == null)
-                return Unauthorized(new { message = "Invalid email or password" });
+                return BadRequest("Invalid credentials");
 
-            bool isValidPassword = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
+            bool isValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
 
-            if (!isValidPassword)
-                return Unauthorized(new { message = "Invalid email or password" });
+            if (!isValid)
+                return BadRequest("Invalid credentials");
 
             var token = GenerateJwtToken(user);
 
             return Ok(new
             {
                 token,
+
                 user = new
                 {
-                    user.Id,
-                    user.Name,
-                    user.Email,
-                    user.Role
+                    email = user.Email,
+                    role = user.Role
                 }
             });
         }
-
         // ---------------- JWT GENERATOR ----------------
         private string GenerateJwtToken(User user)
         {

@@ -16,7 +16,7 @@ export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   loading = false;
 
-  serverError: string = '';   // 👈 IMPORTANT (for email exists)
+  serverError: string = '';   
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +35,8 @@ export class SignupComponent implements OnInit {
           Validators.minLength(6),
           Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9]).{6,}$/)
         ]
-      ]
+      ],
+      role: ['Student']
     });
   }
 
@@ -75,4 +76,4 @@ export class SignupComponent implements OnInit {
 }
     });
   }
-}
+} 

@@ -65,4 +65,4 @@ namespace AYNversityAPI.Controllers
             return Ok(new { message = "User deleted successfully" });
         }
     }
-}
+} 

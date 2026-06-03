@@ -9,14 +9,13 @@ namespace AYNversityAPI.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
 
-        public string Title { get; set; } = null!;
+        public string Title { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Category { get; set; } = "";
 
-        public string Description { get; set; } = null!;
+        public string? UserEmail { get; set; }
+        public string? Instructor { get; set; }
 
-        public string Instructor { get; set; } = null!;
-
-        public decimal Price { get; set; }
-
-        public string UserEmail { get; set; }
+        public List<string> EnrolledUsers { get; set; } = new();
     }
 }
