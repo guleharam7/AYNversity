@@ -1,1 +1,22 @@
-<p>signup works!</p>
+<div class="container">
+
+  <form (ngSubmit)="onSignup()" [formGroup]="signupForm">
+
+    <h1>Sign Up</h1>
+
+    <input type="text" placeholder="Name" formControlName="name">
+
+    <input type="email" placeholder="Email" formControlName="email">
+
+    <input type="password" placeholder="Password" formControlName="password">
+
+    <select formControlName="role">
+      <option value="Student">Student</option>
+      <option value="Admin">Admin</option>
+    </select>
+
+    <button type="submit">Register</button>
+
+  </form>
+
+</div>
