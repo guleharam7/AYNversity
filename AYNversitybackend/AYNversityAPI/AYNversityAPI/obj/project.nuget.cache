@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "5S/MmK9m0Lg=",
+  "dgSpecHash": "Y14/17hRmv4=",
   "success": true,
   "projectFilePath": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\AYNversityAPI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.8\\microsoft.aspnetcore.authentication.jwtbearer.10.0.8.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.8\\microsoft.aspnetcore.openapi.10.0.8.nupkg.sha512",
