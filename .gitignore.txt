@@ -1,0 +1,15 @@
+# Visual Studio
+.vs/
+bin/
+obj/
+
+# User files
+*.user
+*.suo
+
+# Build output
+Debug/
+Release/
+
+# Node modules (later frontend)
+node_modules/

@@ -3,20 +3,32 @@
   "WorkspaceRootPath": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{60FB137D-A665-4781-9619-14CFF2F71256}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{60FB137D-A665-4781-9619-14CFF2F71256}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60FB137D-A665-4781-9619-14CFF2F71256}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\data\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60FB137D-A665-4781-9619-14CFF2F71256}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\data\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60FB137D-A665-4781-9619-14CFF2F71256}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60FB137D-A665-4781-9619-14CFF2F71256}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60FB137D-A665-4781-9619-14CFF2F71256}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\aynversityapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{60FB137D-A665-4781-9619-14CFF2F71256}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\aynversityapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\data\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\data\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\aynversitybackend\\aynversityapi\\aynversityapi\\aynversityapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\aynversityapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,11 +38,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "AYNversityAPI\\Controllers\\UsersController.cs",
+              "ToolTip": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "AYNversityAPI\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAA5wAwAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-03T11:40:54.511Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Program.cs",
+              "RelativeDocumentMoniker": "AYNversityAPI\\Program.cs",
+              "ToolTip": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Program.cs",
+              "RelativeToolTip": "AYNversityAPI\\Program.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAcwB8AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-03T11:39:56.777Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "AYNversityAPI\\Services\\UserService.cs",
+              "ToolTip": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Services\\UserService.cs",
+              "RelativeToolTip": "AYNversityAPI\\Services\\UserService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAADwvxwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-03T11:39:05.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\appsettings.json",
               "RelativeDocumentMoniker": "AYNversityAPI\\appsettings.json",
@@ -43,12 +94,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MongoDBSettings.cs",
-              "DocumentMoniker": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Data\\MongoDBSettings.cs",
-              "RelativeDocumentMoniker": "AYNversityAPI\\Data\\MongoDBSettings.cs",
-              "ToolTip": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Data\\MongoDBSettings.cs",
-              "RelativeToolTip": "AYNversityAPI\\Data\\MongoDBSettings.cs",
+              "DocumentIndex": 4,
+              "Title": "MongoDbSettings.cs",
+              "DocumentMoniker": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Data\\MongoDbSettings.cs",
+              "RelativeDocumentMoniker": "AYNversityAPI\\Data\\MongoDbSettings.cs",
+              "ToolTip": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Data\\MongoDbSettings.cs",
+              "RelativeToolTip": "AYNversityAPI\\Data\\MongoDbSettings.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-03T11:24:40.329Z",
@@ -56,7 +107,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "User.cs",
               "DocumentMoniker": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\Models\\User.cs",
               "RelativeDocumentMoniker": "AYNversityAPI\\Models\\User.cs",
@@ -69,8 +120,8 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AYNversityAPI",
+              "DocumentIndex": 6,
+              "Title": "AYNversityAPI.csproj",
               "DocumentMoniker": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\AYNversityAPI.csproj",
               "RelativeDocumentMoniker": "AYNversityAPI\\AYNversityAPI.csproj",
               "ToolTip": "D:\\Project_Web\\AYNversitybackend\\AYNversityAPI\\AYNversityAPI\\AYNversityAPI.csproj",
