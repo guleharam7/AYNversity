@@ -15,7 +15,7 @@ namespace AYNversityAPI.Controllers
             _userService = userService;
         }
 
-        // GET ALL USERS
+        // ---------------- GET ALL USERS ----------------
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -23,37 +23,46 @@ namespace AYNversityAPI.Controllers
             return Ok(users);
         }
 
-        // GET BY ID
+        // ---------------- GET BY ID ----------------
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
             var user = await _userService.GetByIdAsync(id);
-            if (user == null) return NotFound();
+
+            if (user == null)
+                return NotFound(new { message = "User not found" });
+
             return Ok(user);
         }
 
-        // UPDATE USER
+        // ---------------- UPDATE USER ----------------
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, User user)
         {
             var existing = await _userService.GetByIdAsync(id);
-            if (existing == null) return NotFound();
+
+            if (existing == null)
+                return NotFound(new { message = "User not found" });
 
             user.Id = id;
+
             await _userService.UpdateAsync(id, user);
 
-            return Ok("User updated successfully");
+            return Ok(new { message = "User updated successfully" });
         }
 
-        // DELETE USER
+        // ---------------- DELETE USER ----------------
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var existing = await _userService.GetByIdAsync(id);
-            if (existing == null) return NotFound();
+
+            if (existing == null)
+                return NotFound(new { message = "User not found" });
 
             await _userService.DeleteAsync(id);
-            return Ok("User deleted successfully");
+
+            return Ok(new { message = "User deleted successfully" });
         }
     }
 }

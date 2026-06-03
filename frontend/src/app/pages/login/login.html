@@ -1,10 +1,12 @@
 <div class="auth-container">
 
+  <!-- WATERMARK -->
   <div class="bg-watermark">
-      <h1>ALL YOU NEED</h1>
-      <p>Learn. Build. Grow. Repeat.</p>
-    </div>
+    <h1>ALL YOU NEED</h1>
+    <p>Learn. Build. Grow. Repeat.</p>
+  </div>
 
+  <!-- CARD -->
   <div class="auth-card">
 
     <div class="logo-box">AYN</div>
@@ -14,19 +16,33 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
-      <input type="email" placeholder="Email" formControlName="email" />
+      <!-- EMAIL -->
+      <input type="email" formControlName="email" placeholder="Email" />
 
-      <input type="password" placeholder="Password" formControlName="password" />
+      <div class="error"
+        *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        Enter a valid email
+      </div>
 
-      <button type="submit" [disabled]="loginForm.invalid">
-        Login
+      <!-- PASSWORD -->
+      <input type="password" formControlName="password" placeholder="Password" />
+
+      <div class="error"
+        *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        Password must be at least 6 characters
+      </div>
+
+      <!-- BUTTON -->
+      <button type="submit" [disabled]="loginForm.invalid || loading">
+        {{ loading ? 'Logging in...' : 'Login' }}
       </button>
 
     </form>
 
+    <!-- ERROR / SWITCH -->
     <p class="switch">
-      Don't have an account?
-      <a routerLink="/signup">Sign up</a>
+      Don’t have an account?
+      <a routerLink="/signup">Create Account</a>
     </p>
 
   </div>

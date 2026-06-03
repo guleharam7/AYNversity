@@ -1,9 +1,57 @@
-<div class="dashboard-container">
-  <h1>Welcome to AYNversity</h1>
+<div class="dashboard">
 
-  <div class="buttons">
-    <button routerLink="/courses">View Courses</button>
-    <button routerLink="/add-course">Add Course</button>
-    <button (click)="logout()">Logout</button>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div>
+      <h1>AYNversity</h1>
+      <p>Academic Learning Platform</p>
+    </div>
+
+    <div class="userbox">
+      <span>{{ userEmail }}       </span>
+      <button (click)="logout()">Logout</button>
+    </div>
   </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card blue">
+      <h2>{{ courses.length }}</h2>
+      <p>Total Courses</p>
+    </div>
+  </div>
+
+  <!-- INLINE ADD COURSE -->
+  <div class="add-card">
+
+    <h3>Add New Course</h3>
+
+    <div class="form-grid">
+      <input placeholder="Title" [(ngModel)]="newCourse.title" />
+      <input placeholder="Description" [(ngModel)]="newCourse.description" />
+      <input placeholder="Category" [(ngModel)]="newCourse.category" />
+    </div>
+
+    <button (click)="addCourse()">Add Course</button>
+
+  </div>
+
+  <!-- COURSES -->
+  <div class="grid">
+
+    <div class="course" *ngFor="let c of courses">
+
+      <h3>{{ c.title }}</h3>
+      <p>{{ c.description }}</p>
+
+      <span class="tag">{{ c.category }}</span>
+
+      <button class="delete" (click)="deleteCourse(c.id)">
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+
 </div>

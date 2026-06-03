@@ -16,5 +16,7 @@ namespace AYNversityAPI.Models
         public string Instructor { get; set; } = null!;
 
         public decimal Price { get; set; }
+
+        public string UserEmail { get; set; }
     }
 }

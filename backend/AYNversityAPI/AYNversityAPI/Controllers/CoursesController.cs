@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AYNversityAPI.Models;
+﻿using AYNversityAPI.Models;
 using AYNversityAPI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace AYNversityAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CoursesController : ControllerBase
     {
         private readonly CourseService _courseService;
@@ -33,14 +36,15 @@ namespace AYNversityAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Course course)
+        public async Task<IActionResult> CreateCourse(Course course)
         {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            course.UserEmail = email; 
+
             await _courseService.CreateAsync(course);
 
-            return CreatedAtAction(
-                nameof(Get),
-                new { id = course.Id },
-                course);
+            return Ok(course);
         }
 
         [HttpPut("{id}")]

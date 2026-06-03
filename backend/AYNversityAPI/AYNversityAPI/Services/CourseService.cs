@@ -9,15 +9,10 @@ namespace AYNversityAPI.Services
     {
         private readonly IMongoCollection<Course> _coursesCollection;
 
-        public CourseService(IOptions<MongoDbSettings> settings)
+        public CourseService(IMongoClient mongoClient, IOptions<MongoDbSettings> settings)
         {
-            var mongoClient = new MongoClient(settings.Value.ConnectionString);
-
-            var mongoDatabase =
-                mongoClient.GetDatabase(settings.Value.DatabaseName);
-
-            _coursesCollection =
-                mongoDatabase.GetCollection<Course>("Courses");
+            var database = mongoClient.GetDatabase(settings.Value.DatabaseName);
+            _coursesCollection = database.GetCollection<Course>("Courses");
         }
 
         public async Task<List<Course>> GetAllAsync()
@@ -30,6 +25,13 @@ namespace AYNversityAPI.Services
             return await _coursesCollection
                 .Find(x => x.Id == id)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Course>> GetByUserAsync(string email)
+        {
+            return await _coursesCollection
+                .Find(c => c.UserEmail == email)
+                .ToListAsync();
         }
 
         public async Task CreateAsync(Course course)

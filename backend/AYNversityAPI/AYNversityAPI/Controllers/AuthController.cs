@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using MongoDB.Driver;
 
 namespace AYNversityAPI.Controllers
 {
@@ -28,18 +29,25 @@ namespace AYNversityAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
-            var users = await _userService.GetAsync();
+            if (dto == null)
+                return BadRequest("Invalid request");
 
-            var existingUser = users.FirstOrDefault(u => u.Email == dto.Email);
+            var existingUser = await _userService.GetByEmailAsync(dto.Email);
+
             if (existingUser != null)
-                return BadRequest("User already exists");
+            {
+                return Conflict(new
+                {
+                    message = "Email already exists. Please login instead."
+                });
+            }
 
             var user = new User
             {
                 Name = dto.Name,
-                Email = dto.Email,
+                Email = dto.Email.ToLower().Trim(),
                 Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-                Role = dto.Role
+                Role = dto.Role ?? "Student"
             };
 
             await _userService.CreateAsync(user);
@@ -54,17 +62,18 @@ namespace AYNversityAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var users = await _userService.GetAsync();
+            if (dto == null)
+                return BadRequest("Invalid request");
 
-            var user = users.FirstOrDefault(u => u.Email == dto.Email);
+            var user = await _userService.GetByEmailAsync(dto.Email);
 
             if (user == null)
-                return BadRequest("Invalid credentials");
+                return Unauthorized(new { message = "Invalid email or password" });
 
             bool isValidPassword = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
 
             if (!isValidPassword)
-                return BadRequest("Invalid credentials");
+                return Unauthorized(new { message = "Invalid email or password" });
 
             var token = GenerateJwtToken(user);
 
@@ -91,7 +100,7 @@ namespace AYNversityAPI.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id ?? ""),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role ?? "Student")
             };
 
             var token = new JwtSecurityToken(

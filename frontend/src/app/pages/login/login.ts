@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
@@ -29,6 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
+
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -36,21 +39,31 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    this.auth.login(this.loginForm.value).subscribe({
+    const email = this.loginForm.value.email;
+    const password = this.loginForm.value.password;
+
+    this.auth.login({ email, password }).subscribe({
       next: (res: any) => {
 
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('email', this.loginForm.value.email);
+        const token = res?.token;
 
-        this.loading = false;
+        if (!token) {
+          throw new Error('Token missing from backend response');
+        }
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('email', email ?? '');
 
         this.router.navigate(['/dashboard']);
       },
 
       error: (err) => {
         console.error(err);
-        this.loading = false;
         alert('Invalid email or password');
+      },
+
+      complete: () => {
+        this.loading = false;
       }
     });
   }

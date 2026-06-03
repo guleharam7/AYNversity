@@ -1,23 +1,60 @@
 <div class="auth-container">
+
+  <div class="bg-watermark">
+    <h1>ALL YOU NEED</h1>
+    <p>Learn. Build. Grow. Repeat.</p>
+  </div>
+
   <div class="auth-card">
 
-    <h1>Create Account</h1>
-    <p>Join AYNversity</p>
+    <div class="logo-box">AYN</div>
+
+    <h2>AYNversity</h2>
+    <p>Create your account</p>
+
+    <!-- 🔴 SERVER ERROR -->
+    <div class="error" *ngIf="serverError">
+      {{ serverError }}
+    </div>
 
     <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
 
-      <input type="text" placeholder="Full Name" formControlName="name" />
+      <!-- NAME -->
+      <input type="text" formControlName="name" placeholder="Full Name" />
+      <div class="error"
+        *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid">
+        Name must be at least 3 characters
+      </div>
 
-      <input type="email" placeholder="Email" formControlName="email" />
+      <!-- EMAIL -->
+      <input type="email" formControlName="email" placeholder="Email" />
+      <div class="error"
+        *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid">
+        Enter a valid email
+      </div>
 
-      <input type="password" placeholder="Password" formControlName="password" />
+      <!-- PASSWORD -->
+      <input type="password" formControlName="password" placeholder="Password" />
 
-      <select formControlName="role">
-        <option value="Student">Student</option>
-        <option value="Admin">Admin</option>
-      </select>
+      <div class="error"
+        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']">
+        Password is required
+      </div>
 
-      <button type="submit">Register</button>
+      <div class="error"
+        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']">
+        Minimum 6 characters required
+      </div>
+
+      <div class="error"
+        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['pattern']">
+        Must contain 1 uppercase letter and 1 number
+      </div>
+
+      <!-- BUTTON -->
+      <button type="submit" [disabled]="signupForm.invalid || loading">
+        {{ loading ? 'Creating Account...' : 'Sign Up' }}
+      </button>
 
     </form>
 
@@ -27,4 +64,5 @@
     </p>
 
   </div>
+
 </div>
