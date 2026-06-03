@@ -1,0 +1,6 @@
+@AYNversityAPI_HostAddress = http://localhost:5129
+
+GET {{AYNversityAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
