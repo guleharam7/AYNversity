@@ -42,3 +42,12 @@ D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\obj\Debug\net10.0\r
 D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\BCrypt-Net-Next.dll
+D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+D:\Project_Web\AYNversitybackend\AYNversityAPI\AYNversityAPI\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
