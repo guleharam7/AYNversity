@@ -17,13 +17,12 @@ namespace AYNversityAPI.Controllers
             _userService = userService;
         }
 
-        // GET ALL USERS — Teacher/Admin only
+        // GET ALL USERS — Admin or Teacher
         [HttpGet]
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> Get()
         {
             var users = await _userService.GetAllAsync();
-            // Never return passwords
             var result = users.Select(u => new { u.Id, u.Name, u.Email, u.Role });
             return Ok(result);
         }
@@ -37,17 +36,20 @@ namespace AYNversityAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(string id, User user)
         {
             var existing = await _userService.GetByIdAsync(id);
             if (existing == null) return NotFound(new { message = "User not found" });
             user.Id = id;
+            user.Password = existing.Password;
             await _userService.UpdateAsync(id, user);
             return Ok(new { message = "User updated successfully" });
         }
 
+        // DELETE — Admin only
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             var existing = await _userService.GetByIdAsync(id);

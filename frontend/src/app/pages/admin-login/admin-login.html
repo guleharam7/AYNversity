@@ -1,0 +1,57 @@
+<div class="admin-login-page">
+
+  <div class="admin-login-card">
+
+    <div class="admin-badge">
+      <span class="admin-icon"></span>
+    </div>
+
+    <h2>Admin Portal</h2>
+    <p class="admin-subtitle">Restricted access — administrators only</p>
+
+    <div class="server-err" *ngIf="serverError">
+        {{ serverError }}
+    </div>
+
+    <form [formGroup]="adminForm" (ngSubmit)="onAdminLogin()">
+
+      <div class="field">
+        <label>Admin Email</label>
+        <div class="input-wrap">
+          <span class="input-icon"></span>
+          <input type="email" formControlName="email" placeholder="admin@aynversity.com" />
+        </div>
+        <div class="err-msg"
+          *ngIf="adminForm.get('email')?.touched && adminForm.get('email')?.invalid">
+          Please enter a valid email address
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Admin Password</label>
+        <div class="input-wrap">
+          <span class="input-icon"></span>
+          <input type="password" formControlName="password" placeholder="Min. 6 characters" />
+        </div>
+        <div class="err-msg"
+          *ngIf="adminForm.get('password')?.touched && adminForm.get('password')?.invalid">
+          Password must be at least 6 characters
+        </div>
+      </div>
+
+      <button class="btn-admin-submit" type="submit" [disabled]="adminForm.invalid || loading">
+        <span *ngIf="!loading">Access Admin Panel →</span>
+        <span *ngIf="loading" class="btn-loader">
+          <span class="btn-spinner"></span> Verifying...
+        </span>
+      </button>
+
+    </form>
+
+    <button class="btn-back" type="button" (click)="goBack()">
+      ← Back to Student / Teacher Login
+    </button>
+
+  </div>
+
+</div>

@@ -9,7 +9,7 @@
     <div class="topbar-nav">
       <button class="nav-btn" (click)="goToDashboard()">Dashboard</button>
       <button class="nav-btn" routerLink="/courses">All Courses</button>
-      <button class="nav-btn active">Admin Panel</button>
+      <button class="nav-btn" routerLink="/add-course">Add Course</button>
     </div>
     <div class="topbar-right">
       <span class="user-label">{{ userEmail }}</span>
@@ -22,7 +22,7 @@
     <!-- PAGE HEADER -->
     <div class="page-header">
       <div>
-        <h2>Admin Panel</h2>
+        <h2>Teacher Panel</h2>
         <p>Manage your courses and view registered users</p>
       </div>
       <button class="btn-add-course" routerLink="/add-course">+ Add New Course</button>
@@ -36,17 +36,17 @@
         <div class="stat-label">My Courses</div>
       </div>
       <div class="stat-card green">
-        <div class="stat-icon">👥</div>
+        <div class="stat-icon"></div>
         <div class="stat-num">{{ totalEnrolled }}</div>
         <div class="stat-label">Total Enrollments</div>
       </div>
       <div class="stat-card amber">
-        <div class="stat-icon">🎓</div>
+        <div class="stat-icon"></div>
         <div class="stat-num">{{ studentCount }}</div>
         <div class="stat-label">Registered Students</div>
       </div>
       <div class="stat-card purple">
-        <div class="stat-icon">👤</div>
+        <div class="stat-icon"></div>
         <div class="stat-num">{{ users.length }}</div>
         <div class="stat-label">Total Users</div>
       </div>

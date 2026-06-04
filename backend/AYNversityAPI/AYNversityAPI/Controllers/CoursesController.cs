@@ -18,7 +18,7 @@ namespace AYNversityAPI.Controllers
             _courseService = courseService;
         }
 
-        // ── GET ALL (no role filter) — for student browse & teacher view ──
+        // ── GET ALL (no role filter) — for student browse, teacher view & admin ──
         [HttpGet("all")]
         public async Task<ActionResult<List<Course>>> GetAll()
         {
@@ -26,7 +26,7 @@ namespace AYNversityAPI.Controllers
             return Ok(courses);
         }
 
-        // ── GET FILTERED (role-based) — original endpoint kept ──
+        // ── GET FILTERED (role-based) ──
         [HttpGet]
         public async Task<ActionResult<List<Course>>> Get()
         {
@@ -34,6 +34,9 @@ namespace AYNversityAPI.Controllers
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
             var courses = await _courseService.GetAllAsync();
+
+            if (role == "Admin")
+                return Ok(courses); // Admin sees everything
 
             if (role == "Teacher")
                 return Ok(courses.Where(c => c.UserEmail == email).ToList());
@@ -68,7 +71,6 @@ namespace AYNversityAPI.Controllers
             IFormFile? notesFile,
             IFormFile? videoFile)
         {
-            // If files are provided, save them and override URLs
             if (notesFile != null)
             {
                 var fileName = Guid.NewGuid() + Path.GetExtension(notesFile.FileName);
@@ -105,7 +107,7 @@ namespace AYNversityAPI.Controllers
             return Ok(course);
         }
 
-        // ── UPDATE (Teacher only) ──
+        // ── UPDATE (Teacher only — own courses) ──
         [HttpPut("{id}")]
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Update(string id, [FromBody] Course course)
@@ -114,19 +116,26 @@ namespace AYNversityAPI.Controllers
             if (existing == null) return NotFound();
 
             course.Id = id;
-            // Preserve enrolled users
             course.EnrolledUsers = existing.EnrolledUsers;
             await _courseService.UpdateAsync(id, course);
             return NoContent();
         }
 
-        // ── DELETE (Teacher only) ──
+        // ── DELETE (Teacher owns it OR Admin) ──
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher,Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             var course = await _courseService.GetByIdAsync(id);
             if (course == null) return NotFound();
+
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            // Teachers can only delete their own courses
+            if (role == "Teacher" && course.UserEmail != email)
+                return Forbid();
+
             await _courseService.DeleteAsync(id);
             return NoContent();
         }

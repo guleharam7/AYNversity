@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AYNversityAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa22bb6b928d3b920b95cba2b801db611b663e19")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ae1335d0c4801548d7f3502b9a146d16e67fbab9")]
 [assembly: System.Reflection.AssemblyProductAttribute("AYNversityAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AYNversityAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

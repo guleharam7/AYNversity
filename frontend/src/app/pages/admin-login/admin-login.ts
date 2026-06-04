@@ -5,15 +5,15 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-admin-login',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterModule],
-  templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  templateUrl: './admin-login.html',
+  styleUrls: ['./admin-login.css']
 })
-export class LoginComponent implements OnInit {
+export class AdminLoginComponent implements OnInit {
 
-  loginForm!: FormGroup;
+  adminForm!: FormGroup;
   loading = false;
   serverError = '';
 
@@ -24,32 +24,32 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Redirect if already logged in (non-admin)
+    // If already logged in as Admin, go straight to admin panel
+    if (this.auth.isLoggedIn() && this.auth.isAdmin()) {
+      this.router.navigate(['/admin']);
+      return;
+    }
+    // Non-admin logged in → send to dashboard
     if (this.auth.isLoggedIn()) {
-      const role = this.auth.role;
-      if (role === 'Admin') {
-        this.router.navigate(['/admin']);
-      } else {
-        this.router.navigate(['/dashboard']);
-      }
+      this.router.navigate(['/dashboard']);
       return;
     }
 
-    this.loginForm = this.fb.group({
+    this.adminForm = this.fb.group({
       email:    ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  onLogin(): void {
+  onAdminLogin(): void {
     this.serverError = '';
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
+    if (this.adminForm.invalid) {
+      this.adminForm.markAllAsTouched();
       return;
     }
 
     this.loading = true;
-    const { email, password } = this.loginForm.value;
+    const { email, password } = this.adminForm.value;
 
     this.auth.login({ email, password }).subscribe({
       next: (res: any) => {
@@ -62,12 +62,12 @@ export class LoginComponent implements OnInit {
           return;
         }
 
-        const role = user?.role ?? 'Student';
+        const role = user?.role ?? '';
 
-        // ── BLOCK ADMINS from regular login ──────────────────────────
-        if (role === 'Admin') {
+        // ── ONLY ADMINS allowed here ──────────────────────────────
+        if (role !== 'Admin') {
           this.loading = false;
-          this.serverError = 'Admin accounts must use the Admin Login portal.';
+          this.serverError = 'Access denied. This portal is for admins only.';
           return;
         }
 
@@ -77,17 +77,17 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('userId', user?.id    ?? '');
 
         this.loading = false;
-        this.router.navigate(['/dashboard'], { replaceUrl: true });
+        this.router.navigate(['/admin'], { replaceUrl: true });
       },
 
       error: (err) => {
         this.loading = false;
-        this.serverError = err?.error?.message || 'Invalid email or password.';
+        this.serverError = err?.error?.message || 'Invalid admin credentials.';
       }
     });
   }
 
-  goToAdminLogin(): void {
-    this.router.navigate(['/admin-login']);
+  goBack(): void {
+    this.router.navigate(['/login']);
   }
 }

@@ -1,0 +1,143 @@
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">AYN</div>
+      <div>
+        <div class="brand-name">AYNversity</div>
+        <div class="brand-role">Admin Panel</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">
+        <span class="nav-icon"></span> Users
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'courses'" (click)="activeTab = 'courses'">
+        <span class="nav-icon"></span> Courses
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="admin-info">
+        <div class="admin-avatar">{{ adminEmail[0]?.toUpperCase() }}</div>
+        <div>
+          <div class="admin-name">{{ adminEmail }}</div>
+          <div class="admin-badge-label">Administrator</div>
+        </div>
+      </div>
+      <button class="btn-logout" (click)="logout()">Logout →</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="admin-main">
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-num">{{ users.length }}</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{{ totalStudents }}</div>
+        <div class="stat-label">Students</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{{ totalTeachers }}</div>
+        <div class="stat-label">Teachers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{{ courses.length }}</div>
+        <div class="stat-label">Total Courses</div>
+      </div>
+    </div>
+
+    <!-- ── USERS TAB ── -->
+    <div *ngIf="activeTab === 'users'" class="tab-section">
+      <div class="section-header">
+        <h2>Manage Users</h2>
+        <input class="search-input" [(ngModel)]="searchUsers" placeholder="🔍  Search by name, email or role…" />
+      </div>
+
+      <div class="loading-row" *ngIf="loadingUsers">Loading users…</div>
+
+      <div class="table-wrap" *ngIf="!loadingUsers">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of filteredUsers">
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span class="role-badge" [class]="'role-' + user.role?.toLowerCase()">
+                  {{ user.role }}
+                </span>
+              </td>
+              <td>
+                <button class="btn-danger-sm"
+                  *ngIf="user.email !== adminEmail"
+                  (click)="deleteUser(user.id, user.email)">
+                  Delete
+                </button>
+                <span *ngIf="user.email === adminEmail" class="you-label">You</span>
+              </td>
+            </tr>
+            <tr *ngIf="filteredUsers.length === 0">
+              <td colspan="4" class="empty-row">No users found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── COURSES TAB ── -->
+    <div *ngIf="activeTab === 'courses'" class="tab-section">
+      <div class="section-header">
+        <h2>Manage Courses</h2>
+        <input class="search-input" [(ngModel)]="searchCourses" placeholder="🔍  Search by title, category or teacher…" />
+      </div>
+
+      <div class="loading-row" *ngIf="loadingCourses">Loading courses…</div>
+
+      <div class="table-wrap" *ngIf="!loadingCourses">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Teacher</th>
+              <th>Enrolled</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let course of filteredCourses">
+              <td>{{ course.title }}</td>
+              <td><span class="category-badge">{{ course.category }}</span></td>
+              <td>{{ course.userEmail }}</td>
+              <td>{{ course.enrolledUsers?.length ?? 0 }}</td>
+              <td>
+                <button class="btn-danger-sm" (click)="deleteCourse(course.id, course.title)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="filteredCourses.length === 0">
+              <td colspan="5" class="empty-row">No courses found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>

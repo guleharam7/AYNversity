@@ -23,6 +23,7 @@ export class AuthService {
   get role(): string | null  { return localStorage.getItem('role'); }
   get userId(): string | null { return localStorage.getItem('userId'); }
 
+  isAdmin(): boolean   { return this.role === 'Admin'; }
   isTeacher(): boolean { return this.role === 'Teacher'; }
   isStudent(): boolean { return this.role === 'Student'; }
   isLoggedIn(): boolean { return !!this.token; }

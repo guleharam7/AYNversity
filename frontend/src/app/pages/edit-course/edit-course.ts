@@ -17,6 +17,7 @@ export class EditCourseComponent implements OnInit {
   courseId: string = '';
   loading = false;
   saving = false;
+  loadError = '';  
 
   constructor(
     private fb: FormBuilder,
@@ -35,26 +36,38 @@ export class EditCourseComponent implements OnInit {
       videoUrl:    ['']
     });
 
-    this.courseId = this.route.snapshot.paramMap.get('id') || '';
-    this.loadCourse();
+    this.route.paramMap.subscribe(params => {
+      this.courseId = params.get('id') || '';
+      if (!this.courseId) {
+        this.loadError = 'No course ID found in URL.';
+        return;
+      }
+      this.loadCourse();
+    });
   }
 
   loadCourse() {
-    if (!this.courseId) return;
     this.loading = true;
+    this.loadError = '';
+
     this.courseService.getCourse(this.courseId).subscribe({
       next: (res: any) => {
+        const data = res ?? {};
         this.courseForm.patchValue({
-          title:       res.title,
-          description: res.description,
-          category:    res.category,
-          instructor:  res.instructor || '',
-          notesUrl:    res.notesUrl || '',
-          videoUrl:    res.videoUrl || ''
+          title:       data.title       ?? data.Title       ?? '',
+          description: data.description ?? data.Description ?? '',
+          category:    data.category    ?? data.Category    ?? '',
+          instructor:  data.instructor  ?? data.Instructor  ?? '',
+          notesUrl:    data.notesUrl    ?? data.NotesUrl    ?? '',
+          videoUrl:    data.videoUrl    ?? data.VideoUrl    ?? ''
         });
         this.loading = false;
       },
-      error: (err) => { console.error(err); this.loading = false; }
+      error: (err) => {
+        console.error('Failed to load course:', err);
+        this.loadError = err?.error?.message || 'Failed to load course. Please go back and try again.';
+        this.loading = false;
+      }
     });
   }
 
@@ -75,5 +88,9 @@ export class EditCourseComponent implements OnInit {
         alert('Failed to update course.');
       }
     });
+  }
+
+  goBack() {
+    this.router.navigate(['/courses']);
   }
 }

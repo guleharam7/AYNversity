@@ -15,9 +15,27 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
+    const requiredRoles: string[] = route.data?.['roles'] ?? [];
+
+    // Admin-only routes
+    if (requiredRoles.includes('Admin')) {
+      if (role !== 'Admin') {
+        // Admins that somehow land on a non-admin route go to admin panel
+        // Others go to dashboard
+        this.router.navigate([role === 'Admin' ? '/admin' : '/dashboard']);
+        return false;
+      }
+      return true;
+    }
+
+    // Block admins from student/teacher routes
+    if (role === 'Admin') {
+      this.router.navigate(['/admin']);
+      return false;
+    }
+
     // Teacher-only routes
-    const teacherOnly = route.data?.['roles']?.includes('Teacher');
-    if (teacherOnly && role !== 'Teacher') {
+    if (requiredRoles.includes('Teacher') && role !== 'Teacher') {
       this.router.navigate(['/dashboard']);
       return false;
     }
