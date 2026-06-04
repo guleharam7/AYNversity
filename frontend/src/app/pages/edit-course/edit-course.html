@@ -18,12 +18,18 @@
         <p>Update the course details below</p>
       </div>
 
+      <!-- Loading spinner -->
       <div class="loading-state" *ngIf="loading">
         <div class="spinner"></div>
         <p>Loading course...</p>
       </div>
 
-      <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+      <div class="error-state" *ngIf="!loading && loadError">
+        <p class="err-msg">{{ loadError }}</p>
+        <button class="btn-cancel" (click)="loadCourse()">Retry</button>
+      </div>
+
+      <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" *ngIf="!loading && !loadError">
 
         <div class="field">
           <label>Course Title <span class="req">*</span></label>

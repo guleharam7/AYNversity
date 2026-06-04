@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Project_Web\\backend\\AYNversityAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\backend\\aynversityapi\\aynversityapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\backend\\aynversityapi\\aynversityapi\\controllers\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\controllers\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\backend\\aynversityapi\\aynversityapi\\services\\courseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\services\\courseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\backend\\aynversityapi\\aynversityapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|solutionrelative:aynversityapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{83DCA4BC-816B-4A45-F4F5-DA2A73A1B07A}|AYNversityAPI\\AYNversityAPI.csproj|d:\\project_web\\backend\\aynversityapi\\aynversityapi\\models\\course.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -69,20 +69,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CoursesController.cs",
               "DocumentMoniker": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Controllers\\CoursesController.cs",
               "RelativeDocumentMoniker": "AYNversityAPI\\Controllers\\CoursesController.cs",
               "ToolTip": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Controllers\\CoursesController.cs",
               "RelativeToolTip": "AYNversityAPI\\Controllers\\CoursesController.cs",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAswKEAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAswKEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-03T17:59:13.476Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "AYNversityAPI\\Controllers\\UsersController.cs",
+              "ToolTip": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "AYNversityAPI\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAA7wCwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-03T16:03:11.867Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Program.cs",
+              "RelativeDocumentMoniker": "AYNversityAPI\\Program.cs",
+              "ToolTip": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Program.cs",
+              "RelativeToolTip": "AYNversityAPI\\Program.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAQwGAAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-03T23:34:35.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CourseService.cs",
+              "DocumentMoniker": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Services\\CourseService.cs",
+              "RelativeDocumentMoniker": "AYNversityAPI\\Services\\CourseService.cs",
+              "ToolTip": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Services\\CourseService.cs",
+              "RelativeToolTip": "AYNversityAPI\\Services\\CourseService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-03T17:58:59.888Z"
             },
             {
               "$type": "Document",
@@ -95,42 +132,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-03T17:58:45.555Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CourseService.cs",
-              "DocumentMoniker": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Services\\CourseService.cs",
-              "RelativeDocumentMoniker": "AYNversityAPI\\Services\\CourseService.cs",
-              "ToolTip": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Services\\CourseService.cs",
-              "RelativeToolTip": "AYNversityAPI\\Services\\CourseService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-03T17:58:59.888Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "AYNversityAPI\\Controllers\\UsersController.cs",
-              "ToolTip": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "AYNversityAPI\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAA7wCwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-03T16:03:11.867Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Program.cs",
-              "RelativeDocumentMoniker": "AYNversityAPI\\Program.cs",
-              "ToolTip": "D:\\Project_Web\\backend\\AYNversityAPI\\AYNversityAPI\\Program.cs",
-              "RelativeToolTip": "AYNversityAPI\\Program.cs",
-              "ViewState": "AgIAAD8AAAAAADMzMzPbvzoAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-03T23:34:35.018Z"
             },
             {
               "$type": "Document",

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CourseService } from '../../services/course.service';
+import { timeout, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-edit-course',
@@ -38,8 +40,6 @@ export class EditCourseComponent implements OnInit {
 
     this.courseId = this.route.snapshot.paramMap.get('id') || '';
 
-    console.log('Edit course ID:', this.courseId);   // ← debug: check console
-
     if (!this.courseId) {
       this.loadError = 'No course ID in URL. Go back and try again.';
       return;
@@ -52,10 +52,18 @@ export class EditCourseComponent implements OnInit {
     this.loading   = true;
     this.loadError = '';
 
-    this.courseService.getCourse(this.courseId).subscribe({
+    this.courseService.getCourse(this.courseId).pipe(
+      timeout(10000),  
+      catchError(err => {
+        const isTimeout = err?.name === 'TimeoutError';
+        this.loadError = isTimeout
+          ? 'Request timed out. The server may be unreachable.'
+          : err?.error?.message || `Error ${err?.status ?? ''}: Failed to load course.`;
+        this.loading = false;
+        return throwError(() => err);
+      })
+    ).subscribe({
       next: (res: any) => {
-        console.log('Course data received:', res);   // ← debug: check console
-
         const data = res ?? {};
 
         this.courseForm.patchValue({
@@ -67,12 +75,6 @@ export class EditCourseComponent implements OnInit {
           videoUrl:    data.videoUrl    ?? data.VideoUrl    ?? ''
         });
 
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('getCourse error:', err);      // ← debug: check console
-        this.loadError = err?.error?.message
-          || `Error ${err?.status}: Failed to load course.`;
         this.loading = false;
       }
     });

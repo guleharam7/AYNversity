@@ -21,13 +21,23 @@ export class CoursesComponent implements OnInit, AfterViewInit {
     const q = this.searchQuery.toLowerCase().trim();
     if (!q) return this.courses;
     return this.courses.filter(c =>
-      c.title?.toLowerCase().includes(q) ||
-      c.category?.toLowerCase().includes(q) ||
-      c.instructor?.toLowerCase().includes(q)
+      this.val(c, 'title')?.toLowerCase().includes(q) ||
+      this.val(c, 'category')?.toLowerCase().includes(q) ||
+      this.val(c, 'instructor')?.toLowerCase().includes(q)
     );
   }
 
   constructor(private courseService: CourseService) {}
+
+  // Read a field regardless of whether API returns camelCase or PascalCase
+  val(course: any, field: string): any {
+    const upper = field.charAt(0).toUpperCase() + field.slice(1);
+    return course[field] ?? course[upper];
+  }
+
+  getId(course: any): string {
+    return course['id'] ?? course['Id'] ?? course['_id'] ?? '';
+  }
 
   ngOnInit() {
     this.userEmail = localStorage.getItem('email') || '';
@@ -37,7 +47,6 @@ export class CoursesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     const searchInput = document.getElementById('course-search') as HTMLInputElement;
     const countBadge  = document.getElementById('result-count');
-
     if (searchInput && countBadge) {
       searchInput.addEventListener('input', () => {
         countBadge.style.transition = 'transform 0.15s ease';
@@ -50,15 +59,21 @@ export class CoursesComponent implements OnInit, AfterViewInit {
   loadCourses() {
     this.courseService.getAllCourses().subscribe({
       next: (data: any[]) => {
-        this.courses = data.filter(c => c.userEmail === this.userEmail);
+        console.log('RAW API response:', data);           
+        console.log('Logged-in email:', this.userEmail);  
+        // Match regardless of casing
+        this.courses = data.filter(c =>
+          (c['userEmail'] ?? c['UserEmail']) === this.userEmail
+        );
+        console.log('Filtered courses:', this.courses);
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error('loadCourses error:', err)
     });
   }
 
-  deleteCourse(id: string) {
+  deleteCourse(course: any) {
     if (!confirm('Delete this course? This cannot be undone.')) return;
-    this.courseService.deleteCourse(id).subscribe(() => this.loadCourses());
+    this.courseService.deleteCourse(this.getId(course)).subscribe(() => this.loadCourses());
   }
 
   logout() { localStorage.clear(); window.location.href = '/login'; }

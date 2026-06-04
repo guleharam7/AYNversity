@@ -51,22 +51,24 @@
             <td class="num">{{ i + 1 }}</td>
             <td>
               <div class="course-title-cell">
-                <span class="course-name">{{ course.title }}</span>
-                <span class="course-desc">{{ course.description | slice:0:65 }}{{ course.description?.length > 65 ? '…' : '' }}</span>
+                <span class="course-name">{{ val(course, 'title') }}</span>
+                <span class="course-desc">
+                  {{ val(course, 'description') | slice:0:65 }}{{ val(course, 'description')?.length > 65 ? '…' : '' }}
+                </span>
               </div>
             </td>
-            <td><span class="cat-tag">{{ course.category }}</span></td>
-            <td class="instructor-cell">{{ course.instructor || '—' }}</td>
+            <td><span class="cat-tag">{{ val(course, 'category') }}</span></td>
+            <td class="instructor-cell">{{ val(course, 'instructor') || '—' }}</td>
             <td>
               <div class="enroll-pill">
-                <span class="enroll-num">{{ course.enrolledUsers?.length || 0 }}</span>
+                <span class="enroll-num">{{ (val(course, 'enrolledUsers'))?.length || 0 }}</span>
                 <span class="enroll-text">students</span>
               </div>
             </td>
             <td>
               <div class="action-btns">
-                <button class="btn-edit" [routerLink]="['/edit-course', course.id]">Edit</button>
-                <button class="btn-delete" (click)="deleteCourse(course.id)">Delete</button>
+                <button class="btn-edit" [routerLink]="['/edit-course', getId(course)]">Edit</button>
+                <button class="btn-delete" (click)="deleteCourse(course)">Delete</button>
               </div>
             </td>
           </tr>
@@ -74,7 +76,6 @@
       </table>
 
       <div class="empty-state" *ngIf="filteredCourses.length === 0">
-        <span class="empty-icon">{{ searchQuery ? '' : '' }}</span>
         <h3>{{ searchQuery ? 'No courses match your search' : 'No courses yet' }}</h3>
         <p>{{ searchQuery ? 'Try a different search term.' : 'Click "+ Add Course" to create your first one.' }}</p>
       </div>

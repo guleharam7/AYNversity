@@ -9,7 +9,13 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // ---------------- Controllers ----------------
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Return all fields as camelCase: "id", "title", "userEmail", etc.
+        options.JsonSerializerOptions.PropertyNamingPolicy =
+            System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
 
 // ---------------- Swagger ----------------
 builder.Services.AddEndpointsApiExplorer();
@@ -44,19 +50,19 @@ builder.Services.AddAuthentication(options =>
 .AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
-{
-    ValidateIssuer = true,
-    ValidateAudience = true,
-    ValidateLifetime = true,
-    ValidateIssuerSigningKey = true,
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
 
-    ValidIssuer = jwtSettings.Issuer,
-    ValidAudience = jwtSettings.Audience,
-    IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidIssuer = jwtSettings.Issuer,
+        ValidAudience = jwtSettings.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
 
-    RoleClaimType = ClaimTypes.Role,
-    NameClaimType = ClaimTypes.Email
-};
+        RoleClaimType = ClaimTypes.Role,
+        NameClaimType = ClaimTypes.Email
+    };
 });
 
 builder.Services.AddCors(options =>
