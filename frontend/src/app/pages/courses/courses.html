@@ -1,25 +1,76 @@
-<h2>Available Courses</h2>
+<div class="courses-page">
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Instructor</th>
-      <th>Price</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">AYN</div>
+      <h1>AYNversity</h1>
+    </div>
+    <div class="topbar-nav">
+      <button class="nav-btn" routerLink="/dashboard">Dashboard</button>
+      <button class="nav-btn active">All Courses</button>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-add-top" routerLink="/add-course">+ Add Course</button>
+    </div>
+  </div>
 
-  <tbody>
-    <tr *ngFor="let course of courses">
-      <td>{{ course.title }}</td>
-      <td>{{ course.instructor }}</td>
-      <td>{{ course.price }}</td>
+  <div class="page-body">
+    <div class="page-header">
+      <div>
+        <h2>Course Management</h2>
+        <p>
+          <span id="result-count">{{ filteredCourses.length }}</span>
+          of {{ courses.length }} course(s)
+        </p>
+      </div>
+      <input
+        id="course-search"
+        class="search-input"
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder=" Search by title, category, instructor..."
+      />
+    </div>
 
-      <td>
-        <button [routerLink]="['/edit-course', course.id]">Edit</button>
-        <button (click)="deleteCourse(course.id)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Instructor</th>
+            <th>Enrolled</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let course of filteredCourses; let i = index">
+            <td class="num">{{ i + 1 }}</td>
+            <td>
+              <div class="course-title-cell">
+                <span>{{ course.title }}</span>
+                <span class="course-desc">{{ course.description }}</span>
+              </div>
+            </td>
+            <td><span class="cat-tag">{{ course.category }}</span></td>
+            <td class="instructor-cell">{{ course.instructor || '—' }}</td>
+            <td class="count-cell">{{ course.enrolledUsers?.length || 0 }}</td>
+            <td>
+              <div class="action-btns">
+                <button class="btn-edit" [routerLink]="['/edit-course', course.id]">Edit</button>
+                <button class="btn-delete" (click)="deleteCourse(course.id)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="empty-state" *ngIf="filteredCourses.length === 0">
+        <div class="empty-icon">{{ searchQuery ? '' : '' }}</div>
+        <h3>{{ searchQuery ? 'No courses match your search' : 'No courses yet' }}</h3>
+        <p>{{ searchQuery ? 'Try a different search term.' : 'Add a course to get started.' }}</p>
+      </div>
+    </div>
+  </div>
+</div>

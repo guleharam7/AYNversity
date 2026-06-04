@@ -1,23 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CourseService } from '../../services/course.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
-  courses: any[] = [];
+  // All courses from API
+  allCourses: any[] = [];
+
   userEmail: string | null = '';
+  userInitial: string = '?';
   role: string | null = '';
 
-  selectedNotesFile: File | null = null;
-  selectedVideoFile: File | null = null;
+  // Student tab toggle
+  activeTab: 'browse' | 'enrolled' = 'browse';
 
   newCourse = {
     title: '',
@@ -34,88 +38,67 @@ export class DashboardComponent {
   ngOnInit() {
     this.userEmail = localStorage.getItem('email');
     this.role = localStorage.getItem('role');
+    this.userInitial = (this.userEmail || 'U')[0].toUpperCase();
     this.loadCourses();
   }
 
-  isTeacher(): boolean {
-    return this.role === 'Teacher';
+  isTeacher(): boolean { return this.role === 'Teacher'; }
+  isStudent(): boolean { return this.role === 'Student'; }
+
+  // Courses belonging to this teacher
+  get myCourses(): any[] {
+    return this.allCourses.filter(c => c.userEmail === this.userEmail);
   }
 
-  isStudent(): boolean {
-    return this.role === 'Student';
+  // Courses this student is enrolled in
+  get enrolledCourses(): any[] {
+    return this.allCourses.filter(c =>
+      c.enrolledUsers && c.enrolledUsers.includes(this.userEmail)
+    );
+  }
+
+  isEnrolled(course: any): boolean {
+    return course.enrolledUsers && course.enrolledUsers.includes(this.userEmail);
   }
 
   loadCourses() {
-    this.courseService.getCourses().subscribe({
-      next: (res: any) => {
-        this.courses = res;
-      },
-      error: (err) => {
-        console.error('Load courses error:', err);
-      }
+    this.courseService.getAllCourses().subscribe({
+      next: (res: any) => { this.allCourses = res; },
+      error: (err) => console.error('Load courses error:', err)
     });
   }
 
-  onNotesFileChange(event: any) {
-    this.selectedNotesFile = event.target.files[0];
-  }
-
-  onVideoFileChange(event: any) {
-    this.selectedVideoFile = event.target.files[0];
-  }
-
   addCourse() {
-
     if (!this.newCourse.title || !this.newCourse.description || !this.newCourse.category) {
-      alert('Fill required fields');
+      alert('Title, description, and category are required.');
       return;
     }
 
-    this.courseService.addCourse(
-      this.newCourse,
-      this.selectedNotesFile!,
-      this.selectedVideoFile!
-    ).subscribe({
-      next: (res: any) => {
-        alert('Course added successfully');
-        this.courses.unshift(res);
+    // Attach the teacher's email automatically
+    this.newCourse.userEmail = this.userEmail || '';
 
+    this.courseService.addCourse(this.newCourse, undefined, undefined).subscribe({
+      next: () => {
         this.loadCourses();
-
-        this.newCourse = {
-          title: '',
-          description: '',
-          category: '',
-          instructor: '',
-          userEmail: '',
-          notesUrl: '',
-          videoUrl: ''
-        };
-
-        this.selectedNotesFile = null;
-        this.selectedVideoFile = null;
+        this.newCourse = { title: '', description: '', category: '', instructor: '', userEmail: '', notesUrl: '', videoUrl: '' };
       },
       error: (err) => {
         console.error(err);
-        alert('Failed to add course');
+        alert('Failed to add course. Make sure you are logged in as a Teacher.');
       }
     });
   }
 
   applyCourse(id: string) {
     this.courseService.applyCourse(id).subscribe({
-      next: () => {
-        alert('Applied!');
-        this.loadCourses();
-      },
+      next: () => this.loadCourses(),
       error: (err) => console.error(err)
     });
   }
 
   deleteCourse(id: string) {
-    this.courseService.deleteCourse(id).subscribe(() => {
-      this.loadCourses();
-    });
+    if (!confirm('Delete this course?')) return;
+    this.courseService.deleteCourse(id).subscribe(() => this.loadCourses());
   }
 
   logout() {

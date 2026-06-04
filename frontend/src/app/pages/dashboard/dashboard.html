@@ -1,89 +1,174 @@
 <div class="dashboard">
 
-  <!-- TOP BAR -->
+  <!-- TOPBAR -->
   <div class="topbar">
-    <div>
+    <div class="topbar-brand">
+      <div class="topbar-logo">AYN</div>
       <h1>AYNversity</h1>
-      <p>Academic Learning Platform</p>
     </div>
 
-    <div class="userbox">
-      <span>{{ userEmail }} ({{ role }})</span>
-      <button class="logout-btn" (click)="logout()">Logout</button>
+    <div class="topbar-nav" *ngIf="isTeacher()">
+      <button class="nav-btn" routerLink="/courses">Courses</button>
+      <button class="nav-btn" routerLink="/teacher">Users</button>
+      <button class="nav-btn active">Dashboard</button>
+    </div>
+
+    <div class="topbar-right">
+      <div class="user-chip">
+        <div class="user-avatar">{{ userInitial }}</div>
+        <span>{{ userEmail }}</span>
+        <span class="role-badge" [ngClass]="role?.toLowerCase()">{{ role }}</span>
+      </div>
+      <button class="logout-btn" (click)="logout()">Sign Out</button>
     </div>
   </div>
 
-  <!-- STATS -->
-  <div class="stats">
-    <div class="stat-card blue">
-      <h2>{{ courses.length }}</h2>
-      <p>Total Courses</p>
-    </div>
-  </div>
+  <!-- PAGE BODY -->
+  <div class="page-body">
 
-  <!-- ================= Teacher ONLY ================= -->
-  @if (isTeacher()) {
-  <div class="add-card">
-
-    <h3>Add New Course</h3>
-
-    <div class="form-grid">
-      <input placeholder="Title" [(ngModel)]="newCourse.title" />
-      <input placeholder="Description" [(ngModel)]="newCourse.description" />
-      <input placeholder="Category" [(ngModel)]="newCourse.category" />
-
-      <input placeholder="Instructor" [(ngModel)]="newCourse.instructor" />
-      <input placeholder="Confirm Email" [(ngModel)]="newCourse.userEmail" />
-
-      <input placeholder="Notes URL (Google Drive PDF)" [(ngModel)]="newCourse.notesUrl" />
-      <input placeholder="Lecture Video URL (YouTube)" [(ngModel)]="newCourse.videoUrl" />
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card blue">
+        <div class="stat-num">{{ allCourses.length }}</div>
+        <div class="stat-label">Total Courses</div>
+      </div>
+      <div class="stat-card green" *ngIf="isStudent()">
+        <div class="stat-num">{{ enrolledCourses.length }}</div>
+        <div class="stat-label">Enrolled</div>
+      </div>
+      <div class="stat-card amber" *ngIf="isStudent()">
+        <div class="stat-num">{{ allCourses.length - enrolledCourses.length }}</div>
+        <div class="stat-label">Available</div>
+      </div>
+      <div class="stat-card amber" *ngIf="isTeacher()">
+        <div class="stat-num">{{ myCourses.length }}</div>
+        <div class="stat-label">My Courses</div>
+      </div>
     </div>
 
-    <button (click)="addCourse()">Add Course</button>
+    <!-- ===== TEACHER: ADD COURSE ===== -->
+    @if (isTeacher()) {
+    <div class="add-card">
+      <div class="add-card-header">
+        <h3>Add New Course</h3>
+      </div>
+      <div class="form-grid">
+        <input placeholder="Course Title *" [(ngModel)]="newCourse.title" />
+        <input placeholder="Description *" [(ngModel)]="newCourse.description" />
+        <input placeholder="Category *" [(ngModel)]="newCourse.category" />
+        <input placeholder="Instructor Name" [(ngModel)]="newCourse.instructor" />
+        <input placeholder="Notes URL (Google Drive / PDF link)" [(ngModel)]="newCourse.notesUrl" />
+        <input placeholder="Lecture Video URL (YouTube link)" [(ngModel)]="newCourse.videoUrl" />
+      </div>
+      <button class="btn-add" (click)="addCourse()">Add Course</button>
+    </div>
+    }
 
-  </div>
-  }
+    <!-- ===== STUDENT: TAB BAR ===== -->
+    @if (isStudent()) {
+    <div class="tab-bar">
+      <button class="tab" [class.active]="activeTab === 'browse'" (click)="activeTab = 'browse'">
+        Browse All
+      </button>
+      <button class="tab" [class.active]="activeTab === 'enrolled'" (click)="activeTab = 'enrolled'">
+        My Courses ({{ enrolledCourses.length }})
+      </button>
+    </div>
+    }
 
-  <!-- COURSES -->
-  <div class="grid">
-
-    <div class="course" *ngFor="let c of courses">
-
-      <h3>{{ c.title }}</h3>
-      <p>{{ c.description }}</p>
-
-      <span class="tag">{{ c.category }}</span>
-
-      <!-- Notes -->
-      @if (c.notesUrl) {
-        <p>
-          <a [href]="c.notesUrl" target="_blank">Open Notes</a>
-        </p>
-      }
-
-      <!-- Video -->
-      @if (c.videoUrl) {
-        <p>
-          <a [href]="c.videoUrl" target="_blank">Watch Lecture</a>
-        </p>
-      }
-
-      <!-- Student ONLY -->
-      @if (isStudent()) {
-        <button class="apply" (click)="applyCourse(c.id)">
-          Apply Course
-        </button>
-      }
-
-      <!-- Teacher ONLY -->
-      @if (isTeacher()) {
-        <button class="delete" (click)="deleteCourse(c.id)">
-          Delete
-        </button>
-      }
-
+    <!-- ===== TEACHER COURSES GRID ===== -->
+    @if (isTeacher()) {
+    <div class="section-header">
+      <span class="section-title">Your Courses</span>
     </div>
 
-  </div>
+    <div class="courses-grid" *ngIf="myCourses.length > 0">
+      <div class="course-card" *ngFor="let c of myCourses">
+        <div class="course-card-top">
+          <span class="category-tag">{{ c.category }}</span>
+        </div>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.description }}</p>
+        <div class="course-meta">{{ c.instructor || 'No instructor set' }}</div>
+        <div class="course-links">
+          <a *ngIf="c.notesUrl" [href]="c.notesUrl" target="_blank" class="link-btn notes">Notes</a>
+          <a *ngIf="c.videoUrl" [href]="c.videoUrl" target="_blank" class="link-btn video">Lecture</a>
+        </div>
+        <div class="course-actions">
+          <button class="btn-delete" (click)="deleteCourse(c.id)">Delete</button>
+        </div>
+      </div>
+    </div>
 
+    <div class="empty-state" *ngIf="myCourses.length === 0">
+      <div class="empty-icon"></div>
+      <h3>No courses yet</h3>
+      <p>Use the form above to add your first course.</p>
+    </div>
+    }
+
+    <!-- ===== STUDENT: BROWSE ALL ===== -->
+    @if (isStudent() && activeTab === 'browse') {
+    <div class="section-header">
+      <span class="section-title">All Available Courses</span>
+    </div>
+
+    <div class="courses-grid" *ngIf="allCourses.length > 0">
+      <div class="course-card" *ngFor="let c of allCourses">
+        <div class="course-card-top">
+          <span class="category-tag">{{ c.category }}</span>
+          <span class="enrolled-badge" *ngIf="isEnrolled(c)">Enrolled</span>
+        </div>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.description }}</p>
+        <div class="course-meta">👤 {{ c.instructor || 'Unknown instructor' }}</div>
+        <div class="course-links">
+          <a *ngIf="c.notesUrl && isEnrolled(c)" [href]="c.notesUrl" target="_blank" class="link-btn notes">Notes</a>
+          <a *ngIf="c.videoUrl && isEnrolled(c)" [href]="c.videoUrl" target="_blank" class="link-btn video">Lecture</a>
+        </div>
+        <div class="course-actions">
+          <button class="btn-apply" (click)="applyCourse(c.id)" [disabled]="isEnrolled(c)">
+            {{ isEnrolled(c) ? 'Enrolled' : '+ Enroll' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="allCourses.length === 0">
+      <div class="empty-icon"></div>
+      <h3>No courses available yet</h3>
+      <p>Check back later when teachers add courses.</p>
+    </div>
+    }
+
+    <!-- ===== STUDENT: MY COURSES ===== -->
+    @if (isStudent() && activeTab === 'enrolled') {
+    <div class="section-header">
+      <span class="section-title">My Enrolled Courses</span>
+    </div>
+
+    <div class="courses-grid" *ngIf="enrolledCourses.length > 0">
+      <div class="course-card" *ngFor="let c of enrolledCourses">
+        <div class="course-card-top">
+          <span class="category-tag">{{ c.category }}</span>
+          <span class="enrolled-badge">Enrolled</span>
+        </div>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.description }}</p>
+        <div class="course-meta">{{ c.instructor || 'Unknown instructor' }}</div>
+        <div class="course-links">
+          <a *ngIf="c.notesUrl" [href]="c.notesUrl" target="_blank" class="link-btn notes">Notes</a>
+          <a *ngIf="c.videoUrl" [href]="c.videoUrl" target="_blank" class="link-btn video">Lecture</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="enrolledCourses.length === 0">
+      <div class="empty-icon"></div>
+      <h3>No courses enrolled yet</h3>
+      <p>Browse available courses and click Enroll to get started.</p>
+    </div>
+    }
+
+  </div>
 </div>

@@ -1,33 +1,72 @@
-<div class="form-container">
+<div class="add-page">
 
-  <h2>Add Course</h2>
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">AYN</div>
+      <h1>AYNversity</h1>
+    </div>
+    <div class="topbar-nav">
+      <button class="nav-btn" routerLink="/courses">← Back to Courses</button>
+    </div>
+  </div>
 
-  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+  <div class="page-body">
+    <div class="form-card">
+      <div class="form-card-header">
+        <h2>Add New Course</h2>
+        <p>Fill in the details to create a new course</p>
+      </div>
 
-    <input
-      type="text"
-      placeholder="Course Title"
-      formControlName="title">
+      <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
 
-    <textarea
-      placeholder="Description"
-      formControlName="description">
-    </textarea>
+        <div class="field">
+          <label>Course Title <span class="req">*</span></label>
+          <input type="text" formControlName="title" placeholder="e.g. Introduction to Angular" />
+          <div class="err-msg" *ngIf="courseForm.get('title')?.touched && courseForm.get('title')?.invalid">
+            Title is required
+          </div>
+        </div>
 
-    <input
-      type="text"
-      placeholder="Instructor"
-      formControlName="instructor">
+        <div class="field">
+          <label>Description <span class="req">*</span></label>
+          <textarea formControlName="description" rows="3" placeholder="What will students learn?"></textarea>
+          <div class="err-msg" *ngIf="courseForm.get('description')?.touched && courseForm.get('description')?.invalid">
+            Description is required
+          </div>
+        </div>
 
-    <input
-      type="number"
-      placeholder="Price"
-      formControlName="price">
+        <div class="field-row">
+          <div class="field">
+            <label>Category <span class="req">*</span></label>
+            <input type="text" formControlName="category" placeholder="e.g. Web Development" />
+            <div class="err-msg" *ngIf="courseForm.get('category')?.touched && courseForm.get('category')?.invalid">
+              Category is required
+            </div>
+          </div>
+          <div class="field">
+            <label>Instructor Name</label>
+            <input type="text" formControlName="instructor" placeholder="Your name" />
+          </div>
+        </div>
 
-    <button type="submit">
-      Add Course
-    </button>
+        <div class="field">
+          <label>Notes URL <span class="hint">(Google Drive or PDF link)</span></label>
+          <input type="url" formControlName="notesUrl" placeholder="https://drive.google.com/..." />
+        </div>
 
-  </form>
+        <div class="field">
+          <label>Lecture Video URL <span class="hint">(YouTube link)</span></label>
+          <input type="url" formControlName="videoUrl" placeholder="https://youtube.com/..." />
+        </div>
 
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" routerLink="/courses">Cancel</button>
+          <button type="submit" class="btn-save" [disabled]="courseForm.invalid || saving">
+            {{ saving ? 'Adding...' : '+ Add Course' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
 </div>

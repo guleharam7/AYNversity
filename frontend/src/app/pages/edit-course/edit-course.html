@@ -1,1 +1,78 @@
-<p>edit-course works!</p>
+<div class="edit-page">
+
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">AYN</div>
+      <h1>AYNversity</h1>
+    </div>
+    <div class="topbar-nav">
+      <button class="nav-btn" routerLink="/courses">← Back to Courses</button>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <h2>Edit Course</h2>
+        <p>Update the course details below</p>
+      </div>
+
+      <div class="loading-state" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Loading course...</p>
+      </div>
+
+      <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+
+        <div class="field">
+          <label>Course Title <span class="req">*</span></label>
+          <input type="text" formControlName="title" placeholder="e.g. Introduction to Web Development" />
+          <div class="err-msg" *ngIf="courseForm.get('title')?.touched && courseForm.get('title')?.invalid">
+            Title is required
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Description <span class="req">*</span></label>
+          <textarea formControlName="description" rows="3" placeholder="Brief course description..."></textarea>
+          <div class="err-msg" *ngIf="courseForm.get('description')?.touched && courseForm.get('description')?.invalid">
+            Description is required
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Category <span class="req">*</span></label>
+            <input type="text" formControlName="category" placeholder="e.g. Web Development" />
+            <div class="err-msg" *ngIf="courseForm.get('category')?.touched && courseForm.get('category')?.invalid">
+              Category is required
+            </div>
+          </div>
+          <div class="field">
+            <label>Instructor Name</label>
+            <input type="text" formControlName="instructor" placeholder="Instructor name" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Notes URL</label>
+          <input type="url" formControlName="notesUrl" placeholder="https://drive.google.com/..." />
+        </div>
+
+        <div class="field">
+          <label>Video URL</label>
+          <input type="url" formControlName="videoUrl" placeholder="https://youtube.com/..." />
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" routerLink="/courses">Cancel</button>
+          <button type="submit" class="btn-save" [disabled]="courseForm.invalid || saving">
+            {{ saving ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

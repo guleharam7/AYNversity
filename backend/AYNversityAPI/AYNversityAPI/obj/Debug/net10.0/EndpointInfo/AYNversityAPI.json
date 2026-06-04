@@ -67,6 +67,44 @@
         }
       }
     },
+    "/api/Courses/all": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Courses": {
       "get": {
         "tags": [
@@ -129,6 +167,12 @@
                   "userEmail": {
                     "type": "string"
                   },
+                  "notesUrl": {
+                    "type": "string"
+                  },
+                  "videoUrl": {
+                    "type": "string"
+                  },
                   "notesFile": {
                     "type": "string",
                     "format": "binary"
@@ -153,6 +197,12 @@
                   "style": "form"
                 },
                 "userEmail": {
+                  "style": "form"
+                },
+                "notesUrl": {
+                  "style": "form"
+                },
+                "videoUrl": {
                   "style": "form"
                 },
                 "notesFile": {

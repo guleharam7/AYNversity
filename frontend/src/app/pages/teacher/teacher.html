@@ -1,24 +1,80 @@
-<div class="teacher-container">
+<div class="teacher-page">
 
-  <h1>Teacher Panel</h1>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">AYN</div>
+      <h1>AYNversity</h1>
+    </div>
+    <div class="topbar-nav">
+      <button class="nav-btn" (click)="goToDashboard()">← Dashboard</button>
+      <button class="nav-btn active">User Management</button>
+    </div>
+    <div class="topbar-right">
+      <span class="user-label">{{ userEmail }}</span>
+      <button class="logout-btn" (click)="logout()">Sign Out</button>
+    </div>
+  </div>
 
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Role</th>
-      <th>Action</th>
-    </tr>
+  <div class="page-body">
 
-    <tr *ngFor="let user of users">
-      <td>{{ user.name }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.role }}</td>
-      <td>
-        <button (click)="deleteUser(user._id)">Delete</button>
-      </td>
-    </tr>
+    <!-- HEADER -->
+    <div class="page-header">
+      <div>
+        <h2>User Management</h2>
+        <p>View and manage all registered users</p>
+      </div>
+      <div class="header-badge">{{ users.length }} users</div>
+    </div>
 
-  </table>
+    <!-- LOADING -->
+    <div class="loading-state" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading users...</p>
+    </div>
 
+    <!-- TABLE -->
+    <div class="table-card" *ngIf="!loading">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; let i = index">
+            <td class="num">{{ i + 1 }}</td>
+            <td>
+              <div class="user-row">
+                <div class="avatar">{{ user.name?.[0]?.toUpperCase() || '?' }}</div>
+                <span>{{ user.name }}</span>
+              </div>
+            </td>
+            <td class="email">{{ user.email }}</td>
+            <td>
+              <span class="role-chip" [ngClass]="user.role?.toLowerCase()">{{ user.role }}</span>
+            </td>
+            <td>
+              <button class="btn-delete" (click)="deleteUser(user.id)"
+                      *ngIf="user.email !== userEmail">
+                Delete
+              </button>
+              <span class="self-badge" *ngIf="user.email === userEmail">You</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="empty-state" *ngIf="users.length === 0">
+        <div class="empty-icon">👥</div>
+        <h3>No users found</h3>
+        <p>Registered users will appear here.</p>
+      </div>
+    </div>
+
+  </div>
 </div>

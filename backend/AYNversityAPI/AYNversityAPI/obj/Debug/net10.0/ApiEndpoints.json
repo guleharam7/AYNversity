@@ -85,6 +85,16 @@
         "IsRequired": false
       },
       {
+        "Name": "notesUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "videoUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "notesFile",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
@@ -175,6 +185,26 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AYNversityAPI.Controllers.CoursesController",
+    "Method": "GetAll",
+    "RelativePath": "api/Courses/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[AYNversityAPI.Models.Course, AYNversityAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "AYNversityAPI.Controllers.UsersController",

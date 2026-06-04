@@ -1,73 +1,81 @@
-<div class="auth-container">
+<div class="auth-page">
 
-  <div class="bg-watermark">
-    <h1>ALL YOU NEED</h1>
-    <p>Learn. Build. Grow. Repeat.</p>
+  <!-- LEFT BRANDING PANEL -->
+  <div class="auth-left">
+    <div class="brand-logo">AYN</div>
+    <h1>Join<br><span>AYNversity</span><br>Today</h1>
+    <p>Create your free account and start learning or teaching. Build skills that matter, at your own pace.</p>
+    <div class="auth-pills">
+      <span class="pill">Free to Join</span>
+      <span class="pill">Learn Anywhere</span>
+      <span class="pill">Student & Teacher</span>
+      <span class="pill">All Devices</span>
+    </div>
   </div>
 
-  <div class="auth-card">
+  <!-- RIGHT FORM PANEL -->
+  <div class="auth-right">
+    <div class="auth-card">
+      <h2>Create Account</h2>
+      <p>Fill in your details to get started</p>
 
-    <div class="logo-box">AYN</div>
+      <div class="server-err" *ngIf="serverError">{{ serverError }}</div>
 
-    <h2>AYNversity</h2>
-    <p>Create your account</p>
+      <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
 
-    <!-- 🔴 SERVER ERROR -->
-    <div class="error" *ngIf="serverError">
-      {{ serverError }}
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" formControlName="name" placeholder="Your full name" />
+          <div class="err-msg"
+            *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid">
+            Name must be at least 3 characters
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" formControlName="email" placeholder="you@example.com" />
+          <div class="err-msg"
+            *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid">
+            Enter a valid email address
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input type="password" formControlName="password" placeholder="Min. 6 chars, 1 uppercase, 1 number" />
+          <div class="err-msg"
+            *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']">
+            Password is required
+          </div>
+          <div class="err-msg"
+            *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']">
+            Minimum 6 characters required
+          </div>
+          <div class="err-msg"
+            *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['pattern']">
+            Must include 1 uppercase letter and 1 number
+          </div>
+        </div>
+
+        <div class="field">
+          <label>I am a</label>
+          <select formControlName="role">
+            <option value="Student">Student</option>
+            <option value="Teacher">Teacher</option>
+          </select>
+        </div>
+
+        <button class="btn-primary" type="submit" [disabled]="signupForm.invalid || loading">
+          {{ loading ? 'Creating Account...' : 'Create Account' }}
+        </button>
+
+      </form>
+
+      <p class="auth-switch">
+        Already have an account? <a routerLink="/login">Sign in</a>
+      </p>
     </div>
-
-    <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
-
-      <!-- NAME -->
-      <input type="text" formControlName="name" placeholder="Full Name" />
-      <div class="error"
-        *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid">
-        Name must be at least 3 characters
-      </div>
-
-      <!-- EMAIL -->
-      <input type="email" formControlName="email" placeholder="Email" />
-      <div class="error"
-        *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid">
-        Enter a valid email
-      </div>
-
-      <!-- PASSWORD -->
-      <input type="password" formControlName="password" placeholder="Password" />
-
-      <div class="error"
-        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']">
-        Password is required
-      </div>
-
-      <div class="error"
-        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']">
-        Minimum 6 characters required
-      </div>
-
-      <div class="error"
-        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['pattern']">
-        Must contain 1 uppercase letter and 1 number
-      </div>
-
-      <select formControlName="role">
-        <option value="Student">Student</option>
-        <option value="Teacher">Teacher</option>
-      </select>
-
-      <!-- BUTTON -->
-      <button type="submit" [disabled]="signupForm.invalid || loading">
-        {{ loading ? 'Creating Account...' : 'Sign Up' }}
-      </button>
-
-    </form>
-
-    <p class="switch">
-      Already have an account?
-      <a routerLink="/login">Login</a>
-    </p>
-
   </div>
 
 </div>
