@@ -2,28 +2,53 @@
 
   <!-- LEFT BRANDING PANEL -->
   <div class="auth-left">
-    <div class="brand-logo">AYN</div>
-    <h1>Welcome<br>back to <span>AYNversity</span></h1>
-    <p>Your academic learning hub. Access courses, track progress, and connect with teachers — all in one place.</p>
-    <div class="auth-pills">
-      <span class="pill">Courses</span>
-      <span class="pill">Certifications</span>
-      <span class="pill">Live Teaching</span>
-      <span class="pill">Progress Tracking</span>
+    <div class="auth-left-inner">
+      <div class="brand-logo">AYN</div>
+      <h1>Welcome<br>back to <span>AYNversity</span></h1>
+      <p>Your academic learning hub. Access courses, track progress, and connect with teachers — all in one place.</p>
+      <div class="auth-pills">
+        <span class="pill">Courses</span>
+        <span class="pill">Certifications</span>
+        <span class="pill">Live Teaching</span>
+        <span class="pill">Progress Tracking</span>
+      </div>
+      <div class="auth-stat-row">
+        <div class="auth-stat">
+          <span class="auth-stat-num">10+</span>
+          <span class="auth-stat-label">Courses</span>
+        </div>
+        <div class="auth-stat">
+          <span class="auth-stat-num">50+</span>
+          <span class="auth-stat-label">Students</span>
+        </div>
+        <div class="auth-stat">
+          <span class="auth-stat-num">5+</span>
+          <span class="auth-stat-label">Teachers</span>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- RIGHT FORM PANEL -->
   <div class="auth-right">
     <div class="auth-card">
+
+      <div class="auth-card-logo">AYN</div>
       <h2>Sign In</h2>
-      <p>Enter your credentials to access your account</p>
+      <p class="auth-subtitle">Enter your credentials to access your account</p>
+
+      <div class="server-err" *ngIf="serverError">
+        <span></span> {{ serverError }}
+      </div>
 
       <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
         <div class="field">
           <label>Email Address</label>
-          <input type="email" formControlName="email" placeholder="you@example.com" />
+          <div class="input-wrap">
+            <span class="input-icon"></span>
+            <input type="email" formControlName="email" placeholder="you@example.com" />
+          </div>
           <div class="err-msg"
             *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
             Please enter a valid email address
@@ -32,7 +57,10 @@
 
         <div class="field">
           <label>Password</label>
-          <input type="password" formControlName="password" placeholder="Min. 6 characters" />
+          <div class="input-wrap">
+            <span class="input-icon"></span>
+            <input type="password" formControlName="password" placeholder="Min. 6 characters" />
+          </div>
           <div class="err-msg"
             *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
             Password must be at least 6 characters
@@ -40,14 +68,18 @@
         </div>
 
         <button class="btn-primary" type="submit" [disabled]="loginForm.invalid || loading">
-          {{ loading ? 'Signing in...' : 'Sign In' }}
+          <span *ngIf="!loading">Sign In →</span>
+          <span *ngIf="loading" class="btn-loader">
+            <span class="btn-spinner"></span> Signing in...
+          </span>
         </button>
 
       </form>
 
       <p class="auth-switch">
-        Don't have an account? <a routerLink="/signup">Create one</a>
+        Don't have an account? <a routerLink="/signup">Create one free</a>
       </p>
+
     </div>
   </div>
 

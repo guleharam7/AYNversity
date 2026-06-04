@@ -8,7 +8,8 @@
     </div>
     <div class="topbar-nav">
       <button class="nav-btn" routerLink="/dashboard">Dashboard</button>
-      <button class="nav-btn active">All Courses</button>
+      <button class="nav-btn" routerLink="/teacher">Admin Panel</button>
+      <button class="nav-btn active">My Courses</button>
     </div>
     <div class="topbar-right">
       <button class="btn-add-top" routerLink="/add-course">+ Add Course</button>
@@ -18,9 +19,9 @@
   <div class="page-body">
     <div class="page-header">
       <div>
-        <h2>Course Management</h2>
+        <h2>My Courses</h2>
         <p>
-          <span id="result-count">{{ filteredCourses.length }}</span>
+          Showing <span id="result-count">{{ filteredCourses.length }}</span>
           of {{ courses.length }} course(s)
         </p>
       </div>
@@ -29,7 +30,7 @@
         class="search-input"
         type="text"
         [(ngModel)]="searchQuery"
-        placeholder=" Search by title, category, instructor..."
+        placeholder="  Search by title, category, instructor..."
       />
     </div>
 
@@ -38,7 +39,7 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Title</th>
+            <th>Course</th>
             <th>Category</th>
             <th>Instructor</th>
             <th>Enrolled</th>
@@ -50,13 +51,18 @@
             <td class="num">{{ i + 1 }}</td>
             <td>
               <div class="course-title-cell">
-                <span>{{ course.title }}</span>
-                <span class="course-desc">{{ course.description }}</span>
+                <span class="course-name">{{ course.title }}</span>
+                <span class="course-desc">{{ course.description | slice:0:65 }}{{ course.description?.length > 65 ? '…' : '' }}</span>
               </div>
             </td>
             <td><span class="cat-tag">{{ course.category }}</span></td>
             <td class="instructor-cell">{{ course.instructor || '—' }}</td>
-            <td class="count-cell">{{ course.enrolledUsers?.length || 0 }}</td>
+            <td>
+              <div class="enroll-pill">
+                <span class="enroll-num">{{ course.enrolledUsers?.length || 0 }}</span>
+                <span class="enroll-text">students</span>
+              </div>
+            </td>
             <td>
               <div class="action-btns">
                 <button class="btn-edit" [routerLink]="['/edit-course', course.id]">Edit</button>
@@ -66,10 +72,11 @@
           </tr>
         </tbody>
       </table>
+
       <div class="empty-state" *ngIf="filteredCourses.length === 0">
-        <div class="empty-icon">{{ searchQuery ? '' : '' }}</div>
+        <span class="empty-icon">{{ searchQuery ? '' : '' }}</span>
         <h3>{{ searchQuery ? 'No courses match your search' : 'No courses yet' }}</h3>
-        <p>{{ searchQuery ? 'Try a different search term.' : 'Add a course to get started.' }}</p>
+        <p>{{ searchQuery ? 'Try a different search term.' : 'Click "+ Add Course" to create your first one.' }}</p>
       </div>
     </div>
   </div>

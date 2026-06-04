@@ -7,8 +7,9 @@
       <h1>AYNversity</h1>
     </div>
     <div class="topbar-nav">
-      <button class="nav-btn" (click)="goToDashboard()">← Dashboard</button>
-      <button class="nav-btn active">User Management</button>
+      <button class="nav-btn" (click)="goToDashboard()">Dashboard</button>
+      <button class="nav-btn" routerLink="/courses">All Courses</button>
+      <button class="nav-btn active">Admin Panel</button>
     </div>
     <div class="topbar-right">
       <span class="user-label">{{ userEmail }}</span>
@@ -18,63 +19,177 @@
 
   <div class="page-body">
 
-    <!-- HEADER -->
+    <!-- PAGE HEADER -->
     <div class="page-header">
       <div>
-        <h2>User Management</h2>
-        <p>View and manage all registered users</p>
+        <h2>Admin Panel</h2>
+        <p>Manage your courses and view registered users</p>
       </div>
-      <div class="header-badge">{{ users.length }} users</div>
+      <button class="btn-add-course" routerLink="/add-course">+ Add New Course</button>
     </div>
 
-    <!-- LOADING -->
-    <div class="loading-state" *ngIf="loading">
-      <div class="spinner"></div>
-      <p>Loading users...</p>
-    </div>
-
-    <!-- TABLE -->
-    <div class="table-card" *ngIf="!loading">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users; let i = index">
-            <td class="num">{{ i + 1 }}</td>
-            <td>
-              <div class="user-row">
-                <div class="avatar">{{ user.name?.[0]?.toUpperCase() || '?' }}</div>
-                <span>{{ user.name }}</span>
-              </div>
-            </td>
-            <td class="email">{{ user.email }}</td>
-            <td>
-              <span class="role-chip" [ngClass]="user.role?.toLowerCase()">{{ user.role }}</span>
-            </td>
-            <td>
-              <button class="btn-delete" (click)="deleteUser(user.id)"
-                      *ngIf="user.email !== userEmail">
-                Delete
-              </button>
-              <span class="self-badge" *ngIf="user.email === userEmail">You</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="empty-state" *ngIf="users.length === 0">
-        <div class="empty-icon">👥</div>
-        <h3>No users found</h3>
-        <p>Registered users will appear here.</p>
+    <!-- STATS ROW -->
+    <div class="stats-row">
+      <div class="stat-card blue">
+        <div class="stat-icon"></div>
+        <div class="stat-num">{{ myCourses.length }}</div>
+        <div class="stat-label">My Courses</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon">👥</div>
+        <div class="stat-num">{{ totalEnrolled }}</div>
+        <div class="stat-label">Total Enrollments</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-icon">🎓</div>
+        <div class="stat-num">{{ studentCount }}</div>
+        <div class="stat-label">Registered Students</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-icon">👤</div>
+        <div class="stat-num">{{ users.length }}</div>
+        <div class="stat-label">Total Users</div>
       </div>
     </div>
+
+    <!-- TABS -->
+    <div class="tab-bar">
+      <button class="tab" [class.active]="activeTab === 'courses'" (click)="activeTab = 'courses'">
+        My Courses
+        <span class="tab-badge">{{ myCourses.length }}</span>
+      </button>
+      <button class="tab" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">
+        All Users
+        <span class="tab-badge">{{ users.length }}</span>
+      </button>
+    </div>
+
+    <!-- ===== TAB: MY COURSES ===== -->
+    @if (activeTab === 'courses') {
+
+      <div class="loading-state" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Loading your courses...</p>
+      </div>
+
+      <div class="table-card" *ngIf="!loading">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Course</th>
+              <th>Category</th>
+              <th>Enrolled Students</th>
+              <th>Resources</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of myCourses; let i = index">
+              <td class="num">{{ i + 1 }}</td>
+              <td>
+                <div class="course-title-cell">
+                  <span class="course-name">{{ c.title }}</span>
+                  <span class="course-desc">{{ c.description | slice:0:60 }}{{ c.description?.length > 60 ? '…' : '' }}</span>
+                </div>
+              </td>
+              <td><span class="cat-tag">{{ c.category }}</span></td>
+              <td>
+                <div class="enroll-cell">
+                  <div class="enroll-count">{{ c.enrolledUsers?.length || 0 }}</div>
+                  <div class="enroll-bar-wrap">
+                    <div class="enroll-bar"
+                         [style.width.%]="(c.enrolledUsers?.length || 0) > 0 ? 100 : 0"
+                         [style.background]="(c.enrolledUsers?.length || 0) > 5 ? 'var(--green)' : 'var(--blue-lt)'">
+                    </div>
+                  </div>
+                  <span class="enroll-label">students</span>
+                </div>
+              </td>
+              <td>
+                <div class="resource-links">
+                  <a *ngIf="c.notesUrl" [href]="c.notesUrl" target="_blank" class="res-link notes">Notes</a>
+                  <a *ngIf="c.videoUrl" [href]="c.videoUrl" target="_blank" class="res-link video">Video</a>
+                  <span *ngIf="!c.notesUrl && !c.videoUrl" class="no-res">—</span>
+                </div>
+              </td>
+              <td>
+                <div class="action-btns">
+                  <button class="btn-edit" (click)="goToEditCourse(c.id)">Edit</button>
+                  <button class="btn-delete" (click)="deleteCourse(c.id)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="empty-state" *ngIf="myCourses.length === 0">
+          <span class="empty-icon"></span>
+          <h3>No courses yet</h3>
+          <p>Click "Add New Course" to get started.</p>
+        </div>
+      </div>
+    }
+
+    <!-- ===== TAB: ALL USERS (READ-ONLY) ===== -->
+    @if (activeTab === 'users') {
+
+      <div class="users-header">
+        <p class="read-only-notice">
+          <strong>Read-only view.</strong> User accounts are managed by Admins.
+        </p>
+        <input
+          type="text"
+          class="search-input"
+          [(ngModel)]="userSearch"
+          placeholder="  Search by name, email, or role..."
+        />
+      </div>
+
+      <div class="loading-state" *ngIf="usersLoading">
+        <div class="spinner"></div>
+        <p>Loading users...</p>
+      </div>
+
+      <div class="table-card" *ngIf="!usersLoading">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>User</th>
+              <th>Email</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of filteredUsers; let i = index">
+              <td class="num">{{ i + 1 }}</td>
+              <td>
+                <div class="user-row">
+                  <div class="avatar" [style.background]="user.role === 'Teacher' ? 'var(--accent)' : 'var(--navy-mid)'">
+                    {{ user.name?.[0]?.toUpperCase() || '?' }}
+                  </div>
+                  <div class="user-info">
+                    <span class="user-name">{{ user.name }}</span>
+                    <span class="you-badge" *ngIf="user.email === userEmail">You</span>
+                  </div>
+                </div>
+              </td>
+              <td class="email-cell">{{ user.email }}</td>
+              <td>
+                <span class="role-chip" [ngClass]="user.role?.toLowerCase()">{{ user.role }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="empty-state" *ngIf="filteredUsers.length === 0">
+          <span class="empty-icon"></span>
+          <h3>{{ userSearch ? 'No users match your search' : 'No users found' }}</h3>
+          <p>{{ userSearch ? 'Try a different search term.' : 'Registered users will appear here.' }}</p>
+        </div>
+      </div>
+    }
 
   </div>
 </div>
