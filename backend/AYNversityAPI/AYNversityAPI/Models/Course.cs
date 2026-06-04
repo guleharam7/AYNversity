@@ -16,6 +16,8 @@ namespace AYNversityAPI.Models
         public string? UserEmail { get; set; }
         public string? Instructor { get; set; }
 
+        public string? NotesUrl { get; set; }
+        public string? VideoUrl { get; set; }
         public List<string> EnrolledUsers { get; set; } = new();
     }
 }

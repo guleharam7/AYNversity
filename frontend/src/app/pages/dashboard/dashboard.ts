@@ -16,12 +16,17 @@ export class DashboardComponent {
   userEmail: string | null = '';
   role: string | null = '';
 
+  selectedNotesFile: File | null = null;
+  selectedVideoFile: File | null = null;
+
   newCourse = {
     title: '',
     description: '',
     category: '',
     instructor: '',
-    userEmail: ''
+    userEmail: '',
+    notesUrl: '',
+    videoUrl: ''
   };
 
   constructor(private courseService: CourseService) {}
@@ -29,11 +34,8 @@ export class DashboardComponent {
   ngOnInit() {
     this.userEmail = localStorage.getItem('email');
     this.role = localStorage.getItem('role');
-
     this.loadCourses();
   }
-
-  // ================= ROLE HELPERS =================
 
   isTeacher(): boolean {
     return this.role === 'Teacher';
@@ -42,8 +44,6 @@ export class DashboardComponent {
   isStudent(): boolean {
     return this.role === 'Student';
   }
-
-  // ================= LOAD COURSES =================
 
   loadCourses() {
     this.courseService.getCourses().subscribe({
@@ -56,33 +56,29 @@ export class DashboardComponent {
     });
   }
 
-  // ================= ADD COURSE =================
+  onNotesFileChange(event: any) {
+    this.selectedNotesFile = event.target.files[0];
+  }
+
+  onVideoFileChange(event: any) {
+    this.selectedVideoFile = event.target.files[0];
+  }
 
   addCourse() {
 
-    const course = {
-      title: this.newCourse.title?.trim(),
-      description: this.newCourse.description?.trim(),
-      category: this.newCourse.category?.trim(),
-      instructor: this.newCourse.instructor?.trim(),
-      userEmail: this.newCourse.userEmail?.trim()
-    };
-
-    if (
-      !course.title ||
-      !course.description ||
-      !course.category ||
-      !course.instructor ||
-      !course.userEmail
-    ) {
-      alert('Please fill all course fields');
+    if (!this.newCourse.title || !this.newCourse.description || !this.newCourse.category) {
+      alert('Fill required fields');
       return;
     }
 
-    this.courseService.addCourse(course).subscribe({
-      next: () => {
-
+    this.courseService.addCourse(
+      this.newCourse,
+      this.selectedNotesFile!,
+      this.selectedVideoFile!
+    ).subscribe({
+      next: (res: any) => {
         alert('Course added successfully');
+        this.courses.unshift(res);
 
         this.loadCourses();
 
@@ -91,58 +87,36 @@ export class DashboardComponent {
           description: '',
           category: '',
           instructor: '',
-          userEmail: ''
+          userEmail: '',
+          notesUrl: '',
+          videoUrl: ''
         };
+
+        this.selectedNotesFile = null;
+        this.selectedVideoFile = null;
       },
-
       error: (err) => {
-        console.log('FULL ERROR:', err);
-        console.log('ERROR BODY:', err.error);
-        console.log('VALIDATION ERRORS:', err.error?.errors);
-
+        console.error(err);
         alert('Failed to add course');
       }
     });
   }
 
-  // ================= APPLY COURSE =================
-
-  applyCourse(id: string): void {
-
+  applyCourse(id: string) {
     this.courseService.applyCourse(id).subscribe({
       next: () => {
-        alert('Course applied successfully!');
+        alert('Applied!');
         this.loadCourses();
       },
-
-      error: (err) => {
-        console.error(err);
-        alert('Failed to apply course');
-      }
+      error: (err) => console.error(err)
     });
   }
-
-  // ================= DELETE COURSE =================
 
   deleteCourse(id: string) {
-
-    if (!confirm('Delete this course?')) {
-      return;
-    }
-
-    this.courseService.deleteCourse(id).subscribe({
-      next: () => {
-        this.loadCourses();
-      },
-
-      error: (err) => {
-        console.error(err);
-        alert('Failed to delete course');
-      }
+    this.courseService.deleteCourse(id).subscribe(() => {
+      this.loadCourses();
     });
   }
-
-  // ================= LOGOUT =================
 
   logout() {
     localStorage.clear();

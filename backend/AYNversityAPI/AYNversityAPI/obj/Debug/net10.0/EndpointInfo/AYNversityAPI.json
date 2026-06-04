@@ -67,44 +67,6 @@
         }
       }
     },
-    "/api/Courses/all": {
-      "get": {
-        "tags": [
-          "Courses"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Course"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Course"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Course"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Courses": {
       "get": {
         "tags": [
@@ -148,19 +110,57 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Course"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Course"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Course"
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "instructor": {
+                    "type": "string"
+                  },
+                  "userEmail": {
+                    "type": "string"
+                  },
+                  "notesFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "videoFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "title": {
+                  "style": "form"
+                },
+                "description": {
+                  "style": "form"
+                },
+                "category": {
+                  "style": "form"
+                },
+                "instructor": {
+                  "style": "form"
+                },
+                "userEmail": {
+                  "style": "form"
+                },
+                "notesFile": {
+                  "style": "form"
+                },
+                "videoFile": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -412,6 +412,14 @@
             "nullable": true
           },
           "instructor": {
+            "type": "string",
+            "nullable": true
+          },
+          "notesUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "videoUrl": {
             "type": "string",
             "nullable": true
           },

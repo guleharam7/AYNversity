@@ -60,16 +60,46 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "course",
-        "Type": "AYNversityAPI.Models.Course",
-        "IsRequired": true
+        "Name": "title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "category",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "instructor",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "notesFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "videoFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "AYNversityAPI.Controllers.CoursesController",
-    "Method": "Get",
+    "Method": "GetById",
     "RelativePath": "api/Courses/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -145,26 +175,6 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AYNversityAPI.Controllers.CoursesController",
-    "Method": "GetAllCourses",
-    "RelativePath": "api/Courses/all",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[AYNversityAPI.Models.Course, AYNversityAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
   },
   {
     "ContainingType": "AYNversityAPI.Controllers.UsersController",

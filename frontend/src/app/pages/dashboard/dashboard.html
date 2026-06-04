@@ -8,7 +8,7 @@
     </div>
 
     <div class="userbox">
-      <span>{{ userEmail }} ({{role}})        </span>
+      <span>{{ userEmail }} ({{ role }})</span>
       <button class="logout-btn" (click)="logout()">Logout</button>
     </div>
   </div>
@@ -19,10 +19,11 @@
       <h2>{{ courses.length }}</h2>
       <p>Total Courses</p>
     </div>
-  </div> 
+  </div>
 
   <!-- ================= Teacher ONLY ================= -->
-  <div class="add-card" *ngIf="isTeacher()">
+  @if (isTeacher()) {
+  <div class="add-card">
 
     <h3>Add New Course</h3>
 
@@ -32,12 +33,16 @@
       <input placeholder="Category" [(ngModel)]="newCourse.category" />
 
       <input placeholder="Instructor" [(ngModel)]="newCourse.instructor" />
-      <input placeholder="Teacher Email" [(ngModel)]="newCourse.userEmail" />
+      <input placeholder="Confirm Email" [(ngModel)]="newCourse.userEmail" />
+
+      <input placeholder="Notes URL (Google Drive PDF)" [(ngModel)]="newCourse.notesUrl" />
+      <input placeholder="Lecture Video URL (YouTube)" [(ngModel)]="newCourse.videoUrl" />
     </div>
 
     <button (click)="addCourse()">Add Course</button>
 
   </div>
+  }
 
   <!-- COURSES -->
   <div class="grid">
@@ -49,21 +54,33 @@
 
       <span class="tag">{{ c.category }}</span>
 
-      <!-- ================= STUDENT ONLY ================= -->
-      <button 
-        class="apply" 
-        *ngIf="isStudent()" 
-        (click)="applyCourse(c.id)">
-        Apply Course
-      </button>
+      <!-- Notes -->
+      @if (c.notesUrl) {
+        <p>
+          <a [href]="c.notesUrl" target="_blank">Open Notes</a>
+        </p>
+      }
 
-      <!-- ================= Teacher ONLY ================= -->
-      <button 
-        class="delete" 
-        *ngIf="isTeacher()" 
-        (click)="deleteCourse(c.id)">
-        Delete
-      </button>
+      <!-- Video -->
+      @if (c.videoUrl) {
+        <p>
+          <a [href]="c.videoUrl" target="_blank">Watch Lecture</a>
+        </p>
+      }
+
+      <!-- Student ONLY -->
+      @if (isStudent()) {
+        <button class="apply" (click)="applyCourse(c.id)">
+          Apply Course
+        </button>
+      }
+
+      <!-- Teacher ONLY -->
+      @if (isTeacher()) {
+        <button class="delete" (click)="deleteCourse(c.id)">
+          Delete
+        </button>
+      }
 
     </div>
 

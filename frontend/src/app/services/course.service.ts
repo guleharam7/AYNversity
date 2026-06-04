@@ -10,7 +10,7 @@ export class CourseService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔐 reusable auth header
+  //reusable auth header
   private getAuthHeaders() {
     return {
       headers: {
@@ -30,15 +30,33 @@ export class CourseService {
   }
 
   // ADD COURSE 
-  addCourse(course: any) {
+  addCourse(course: any, notesFile?: File, videoFile?: File) {
 
-  const token = localStorage.getItem('token');
+  const formData = new FormData();
 
-  return this.http.post(this.apiUrl, course, {
-    headers: {
-      Authorization: `Bearer ${token}`
+  formData.append('title', course.title);
+  formData.append('description', course.description);
+  formData.append('category', course.category);
+  formData.append('instructor', course.instructor);
+  formData.append('userEmail', course.userEmail);
+
+  if (notesFile) {
+    formData.append('notesFile', notesFile);
+  }
+
+  if (videoFile) {
+    formData.append('videoFile', videoFile);
+  }
+
+  return this.http.post(
+    'https://localhost:7023/api/courses',
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
     }
-  });
+  );
 }
 
   // UPDATE COURSE

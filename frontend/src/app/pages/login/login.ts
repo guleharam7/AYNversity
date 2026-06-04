@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
 
       this.loading = false; 
 
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/dashboard'], { replaceUrl: true });
     },
 
     error: (err) => {

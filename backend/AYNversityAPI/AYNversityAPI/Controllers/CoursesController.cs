@@ -19,45 +19,116 @@ namespace AYNversityAPI.Controllers
         }
 
         // ======================================================
-        // GET ALL COURSES (TEACHER VIEW ONLY)
-        // ======================================================
-        [HttpGet("all")]
-        [Authorize(Roles = "Teacher")]
-        public async Task<ActionResult<List<Course>>> GetAllCourses()
-        {
-            return await _courseService.GetAllAsync();
-        }
-
-        // ======================================================
-        // GET MY COURSES (STUDENT VIEW)
+        // GET ALL COURSES (Teacher + Student both)
         // ======================================================
         [HttpGet]
         public async Task<ActionResult<List<Course>>> Get()
         {
-            return await _courseService.GetAllAsync();
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            var courses = await _courseService.GetAllAsync();
+
+            // Teacher → only their own courses
+            if (role == "Teacher")
+            {
+                return courses
+                    .Where(c => c.UserEmail == email)
+                    .ToList();
+            }
+
+            // Student → only enrolled courses
+            if (role == "Student")
+            {
+                return courses
+                    .Where(c => c.EnrolledUsers != null && c.EnrolledUsers.Contains(email))
+                    .ToList();
+            }
+
+            return courses;
         }
 
         // ======================================================
         // GET COURSE BY ID
         // ======================================================
         [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> Get(string id)
+        public async Task<ActionResult<Course>> GetById(string id)
         {
             var course = await _courseService.GetByIdAsync(id);
 
             if (course == null)
                 return NotFound();
 
-            return course;
+            return Ok(course);
         }
 
         // ======================================================
         // CREATE COURSE (Teacher ONLY)
         // ======================================================
         [HttpPost]
-        public async Task<IActionResult> CreateCourse(Course course)
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> CreateCourse(
+            [FromForm] string title,
+            [FromForm] string description,
+            [FromForm] string category,
+            [FromForm] string instructor,
+            [FromForm] string userEmail,
+            IFormFile? notesFile,
+            IFormFile? videoFile)
         {
+            string? notesPath = null;
+            string? videoPath = null;
+
+            // Upload Notes
+            if (notesFile != null)
+            {
+                var fileName = Guid.NewGuid() + Path.GetExtension(notesFile.FileName);
+
+                var path = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot/uploads/notes",
+                    fileName);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+
+                using var stream = new FileStream(path, FileMode.Create);
+                await notesFile.CopyToAsync(stream);
+
+                notesPath = "/uploads/notes/" + fileName;
+            }
+
+            // Upload Video
+            if (videoFile != null)
+            {
+                var fileName = Guid.NewGuid() + Path.GetExtension(videoFile.FileName);
+
+                var path = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot/uploads/videos",
+                    fileName);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+
+                using var stream = new FileStream(path, FileMode.Create);
+                await videoFile.CopyToAsync(stream);
+
+                videoPath = "/uploads/videos/" + fileName;
+            }
+
+            var course = new Course
+            {
+                Title = title,
+                Description = description,
+                Category = category,
+                Instructor = instructor,
+                UserEmail = userEmail,
+                NotesUrl = notesPath,
+                VideoUrl = videoPath,
+                EnrolledUsers = new List<string>()
+            };
+
             await _courseService.CreateAsync(course);
+
             return Ok(course);
         }
 
@@ -68,12 +139,12 @@ namespace AYNversityAPI.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Update(string id, Course course)
         {
-            var existingCourse = await _courseService.GetByIdAsync(id);
+            var existing = await _courseService.GetByIdAsync(id);
 
-            if (existingCourse == null)
+            if (existing == null)
                 return NotFound();
 
-            course.Id = existingCourse.Id;
+            course.Id = id;
 
             await _courseService.UpdateAsync(id, course);
 
@@ -98,7 +169,7 @@ namespace AYNversityAPI.Controllers
         }
 
         // ======================================================
-        // APPLY COURSE (STUDENT ONLY)
+        // APPLY COURSE (Student ONLY)
         // ======================================================
         [HttpPost("{id}/apply")]
         [Authorize(Roles = "Student")]
@@ -106,9 +177,15 @@ namespace AYNversityAPI.Controllers
         {
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
 
+            if (string.IsNullOrEmpty(email))
+                return Unauthorized();
+
             var course = await _courseService.GetByIdAsync(id);
+
             if (course == null)
                 return NotFound();
+
+            course.EnrolledUsers ??= new List<string>();
 
             if (!course.EnrolledUsers.Contains(email))
             {

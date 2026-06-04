@@ -44,18 +44,19 @@ builder.Services.AddAuthentication(options =>
 .AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
+{
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
 
-        ValidIssuer = jwtSettings.Issuer,
-        ValidAudience = jwtSettings.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-        NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
-    };
+    ValidIssuer = jwtSettings.Issuer,
+    ValidAudience = jwtSettings.Audience,
+    IssuerSigningKey = new SymmetricSecurityKey(key),
+
+    RoleClaimType = ClaimTypes.Role,
+    NameClaimType = ClaimTypes.Email
+};
 });
 
 builder.Services.AddCors(options =>
