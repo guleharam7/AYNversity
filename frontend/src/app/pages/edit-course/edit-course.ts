@@ -16,8 +16,8 @@ export class EditCourseComponent implements OnInit {
   courseForm!: FormGroup;
   courseId: string = '';
   loading = false;
-  saving = false;
-  loadError = '';  
+  saving  = false;
+  loadError = '';
 
   constructor(
     private fb: FormBuilder,
@@ -36,23 +36,28 @@ export class EditCourseComponent implements OnInit {
       videoUrl:    ['']
     });
 
-    this.route.paramMap.subscribe(params => {
-      this.courseId = params.get('id') || '';
-      if (!this.courseId) {
-        this.loadError = 'No course ID found in URL.';
-        return;
-      }
-      this.loadCourse();
-    });
+    this.courseId = this.route.snapshot.paramMap.get('id') || '';
+
+    console.log('Edit course ID:', this.courseId);   // ← debug: check console
+
+    if (!this.courseId) {
+      this.loadError = 'No course ID in URL. Go back and try again.';
+      return;
+    }
+
+    this.loadCourse();
   }
 
   loadCourse() {
-    this.loading = true;
+    this.loading   = true;
     this.loadError = '';
 
     this.courseService.getCourse(this.courseId).subscribe({
       next: (res: any) => {
+        console.log('Course data received:', res);   // ← debug: check console
+
         const data = res ?? {};
+
         this.courseForm.patchValue({
           title:       data.title       ?? data.Title       ?? '',
           description: data.description ?? data.Description ?? '',
@@ -61,11 +66,13 @@ export class EditCourseComponent implements OnInit {
           notesUrl:    data.notesUrl    ?? data.NotesUrl    ?? '',
           videoUrl:    data.videoUrl    ?? data.VideoUrl    ?? ''
         });
+
         this.loading = false;
       },
       error: (err) => {
-        console.error('Failed to load course:', err);
-        this.loadError = err?.error?.message || 'Failed to load course. Please go back and try again.';
+        console.error('getCourse error:', err);      // ← debug: check console
+        this.loadError = err?.error?.message
+          || `Error ${err?.status}: Failed to load course.`;
         this.loading = false;
       }
     });
@@ -76,16 +83,18 @@ export class EditCourseComponent implements OnInit {
       this.courseForm.markAllAsTouched();
       return;
     }
+
     this.saving = true;
+
     this.courseService.updateCourse(this.courseId, this.courseForm.value).subscribe({
       next: () => {
         this.saving = false;
         this.router.navigate(['/courses']);
       },
       error: (err) => {
-        console.error(err);
+        console.error('updateCourse error:', err);
         this.saving = false;
-        alert('Failed to update course.');
+        alert('Failed to update course. Check console for details.');
       }
     });
   }
